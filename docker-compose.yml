@@ -4,6 +4,7 @@ services:
   hevc-encoder:
     image: melvyndekort/hevc-encoder:latest
     container_name: hevc-encoder
+    privileged: true
     volumes:
       - /var/mnt/storage/nextcloud:/nextcloud:ro
       - /var/mnt/storage/photos/TODO:/photos:rw
