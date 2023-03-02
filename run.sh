@@ -1,8 +1,8 @@
 #!/bin/bash
 
-rsync -a /nextcloud/melvyndekort/files/InstantUpload/ /photos/melvyn/
-rsync -a /nextcloud/kaatjeislief/files/InstantUpload/ /photos/karin/
-rsync -a /nextcloud/daandekort/files/InstantUpload/ /photos/daan/
+rsync -a /nextcloud/melvyndekort/files/InstantUpload/Camera/ /photos/melvyn/
+rsync -a /nextcloud/kaatjeislief/files/InstantUpload/Camera/ /photos/karin/
+rsync -a /nextcloud/daandekort/files/InstantUpload/Camera/ /photos/daan/
 
 shopt -s globstar
 for INPUT in /photos/**/*.mp4; do
