@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   hevc-encoder:
-    image: hevc-encoder:latest
+    image: melvyndekort/hevc-encoder:latest
     container_name: hevc-encoder
     volumes:
       - /var/mnt/storage/nextcloud:/nextcloud:ro
