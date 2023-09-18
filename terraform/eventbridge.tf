@@ -15,7 +15,7 @@ resource "aws_cloudwatch_event_rule" "s3_upload_mp4" {
             prefix = "TODO/"
           },
           {
-            suffix = [".mp4", ".MP4"]
+            suffix = ".mp4"
           }
         ]
       }
@@ -33,6 +33,10 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
     task_count          = 1
     task_definition_arn = aws_ecs_task_definition.hevc_encoder.arn
     launch_type         = "FARGATE"
+
+    network_configuration {
+      subnets = data.terraform_remote_state.cloudsetup.outputs.private_subnets
+    }
   }
 
   input_transformer {
