@@ -9,7 +9,7 @@ resource "aws_ecs_task_definition" "hevc_encoder" {
   container_definitions = jsonencode([
     {
       name      = "hevc-encoder"
-      image     = "melvyndekort/hevc-encoder:LATEST"
+      image     = "melvyndekort/hevc-encoder:latest"
       cpu       = 2048
       memory    = 4096
       essential = true
