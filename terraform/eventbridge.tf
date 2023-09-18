@@ -27,7 +27,7 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
   target_id = "fargate-hevc-encoder"
   rule      = aws_cloudwatch_event_rule.s3_upload_mp4.name
   arn       = aws_ecs_cluster.hevc.arn
-  role_arn  = aws_iam_role.hevc_fargate.arn
+  role_arn  = aws_iam_role.eventbridge_fargate.arn
 
   ecs_target {
     task_count          = 1
