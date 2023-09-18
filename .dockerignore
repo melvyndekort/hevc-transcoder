@@ -1,0 +1,6 @@
+.github/
+.terraform/
+.vscode/
+.gitignore
+.dockerignore
+.README.md
