@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "eventbridge_fargate" {
   }
   statement {
     actions = [
-      "iam:PassRole"
+      "iam:PassRole",
     ]
     resources = [
       aws_iam_role.hevc_fargate.arn
@@ -67,7 +67,9 @@ data "aws_iam_policy_document" "hevc_fargate" {
   }
   statement {
     actions = [
+      "s3:DeleteObject*",
       "s3:GetObject*",
+      "s3:PutObject*",
     ]
     resources = [
       "${aws_s3_bucket.hevc.arn}/*",

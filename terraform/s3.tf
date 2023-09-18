@@ -11,7 +11,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "hevc" {
     filter {}
 
     expiration {
-      days = 30
+      days = 10
     }
 
     status = "Enabled"

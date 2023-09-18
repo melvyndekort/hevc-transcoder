@@ -3,7 +3,7 @@ data "terraform_remote_state" "cloudsetup" {
 
   config = {
     organization = "melvyndekort"
-    workspaces   = {
+    workspaces = {
       name = "cloudsetup"
     }
   }

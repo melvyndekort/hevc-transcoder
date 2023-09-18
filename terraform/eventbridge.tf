@@ -35,7 +35,8 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
     launch_type         = "FARGATE"
 
     network_configuration {
-      subnets = data.terraform_remote_state.cloudsetup.outputs.public_subnets
+      subnets         = data.terraform_remote_state.cloudsetup.outputs.public_subnets
+      security_groups = [aws_security_group.hevc_encoder.id]
     }
   }
 
@@ -43,28 +44,26 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
     input_paths = {
       bucketname      = "$.detail.bucket.name",
       objectkey       = "$.detail.object.key",
-      objectversionid = "$.detail.object.version-id",
     }
-    input_template = jsonencode({
-      containerOverrides = [
+
+    input_template = <<EOF
+{
+  "containerOverrides": [
+    {
+      "name": "hevc-encoder",
+      "environment": [
         {
-          name = "hevc-encoder"
-          environment = [
-            {
-              name  = "S3_BUCKET_NAME"
-              value = "bucketname"
-            },
-            {
-              name  = "S3_OBJECT_KEY"
-              value = "objectkey"
-            },
-            {
-              name  = "S3_OBJ_VERSION_ID"
-              value = "objectversionid"
-            }
-          ]
+          "name": "S3_BUCKET_NAME",
+          "value": <bucketname>
+        },
+        {
+          "name": "S3_OBJECT_KEY",
+          "value": <objectkey>
         }
       ]
-    })
+    }
+  ]
+}
+EOF
   }
 }
