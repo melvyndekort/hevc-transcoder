@@ -10,7 +10,7 @@ echo "Processing $S3_OBJECT_KEY from $S3_BUCKET_NAME"
 
 echo "Downloading source file from S3"
 aws s3api get-object \
-  --no-paginate \
+  --no-cli-pager \
   --bucket $S3_BUCKET_NAME \
   --key "$S3_OBJECT_KEY" \
   --endpoint-url $ENDPOINT \
@@ -27,7 +27,7 @@ ffmpeg -nostdin \
 
 echo "Uploading converted file back to S3"
 aws s3api put-object \
-  --no-paginate \
+  --no-cli-pager \
   --bucket $S3_BUCKET_NAME \
   --key "$TARGET_OBJECT_KEY" \
   --body target.mp4 \
@@ -35,7 +35,7 @@ aws s3api put-object \
 
 echo "Deleting original file from S3"
 aws s3api delete-object \
-  --no-paginate \
+  --no-cli-pager \
   --bucket $S3_BUCKET_NAME \
   --key "$S3_OBJECT_KEY" \
   --endpoint-url $ENDPOINT
