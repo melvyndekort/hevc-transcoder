@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - 'main'
+    paths:
+    - 'docker/**'
+  pull_request:
 
 jobs:
   docker:
@@ -28,10 +31,20 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Declare some variables
+        shell: bash
+        run: |
+          BRANCH=$(echo ${GITHUB_REF#refs/heads/})
+          if [ "$BRANCH" == "main"]; then
+            echo "TAG=latest" >> "$GITHUB_ENV"
+          else
+            echo "TAG=$BRANCH" >> "$GITHUB_ENV"
+          fi
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: docker
           push: true
-          tags: melvyndekort/hevc-encoder:latest
+          tags: melvyndekort/hevc-encoder:${{ env.TAG }}"
           platforms: linux/amd64,linux/arm64
