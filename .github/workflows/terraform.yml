@@ -18,7 +18,7 @@ defaults:
     working-directory: terraform
 
 env:
-  TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
+  TF_TOKEN_app_terraform_io: "${{ secrets.TF_API_TOKEN }}"
 
 jobs:
   terraform:
