@@ -49,5 +49,5 @@ jobs:
         with:
           context: docker
           push: true
-          tags: ${{ env.DOCKER_TAG }}"
+          tags: ${{ env.DOCKER_TAG }}
           platforms: linux/amd64,linux/arm64
