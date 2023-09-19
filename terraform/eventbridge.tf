@@ -42,8 +42,8 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
 
   input_transformer {
     input_paths = {
-      bucketname      = "$.detail.bucket.name",
-      objectkey       = "$.detail.object.key",
+      bucketname = "$.detail.bucket.name",
+      objectkey  = "$.detail.object.key",
     }
 
     input_template = <<EOF
