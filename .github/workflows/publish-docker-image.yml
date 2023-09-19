@@ -35,8 +35,8 @@ jobs:
       - name: Declare some variables
         shell: bash
         run: |
-          BRANCH=$(echo ${GITHUB_REF#refs/heads/})
-          if [ "$BRANCH" == "main"]; then
+          BRANCH="$(echo ${GITHUB_REF#refs/heads/})"
+          if [[ "$BRANCH" == "main" ]]; then
             echo "TAG=latest" >> "$GITHUB_ENV"
           else
             echo "TAG=$BRANCH" >> "$GITHUB_ENV"
