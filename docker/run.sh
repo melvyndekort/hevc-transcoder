@@ -2,6 +2,15 @@
 
 set -e
 
+if [ ! -n "${S3_BUCKET_NAME+set}" ]; then
+  echo "S3_BUCKET_NAME variable wasn't set"
+  exit 254
+fi
+if [ ! -n "${S3_OBJECT_KEY+set}" ]; then
+  echo "S3_OBJECT_KEY variable wasn't set"
+  exit 253
+fi
+
 REGION="$(aws configure get region)"
 ENDPOINT="https://s3.dualstack.${REGION}.amazonaws.com"
 TARGET_OBJECT_KEY="$(echo $S3_OBJECT_KEY | sed 's/^TODO/DONE/; s/.mp4$/-hevc.mp4/')"
