@@ -32,15 +32,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Declare some variables
+      - name: Set tag variable for docker
         shell: bash
         run: |
           BRANCH="$(echo ${GITHUB_REF#refs/heads/})"
           if [[ "$BRANCH" == "main" ]]; then
-            echo "TAG: master"
             echo "DOCKER_TAG=melvyndekort/hevc-encoder:latest" >> "$GITHUB_ENV"
           else
-            echo "TAG: $BRANCH"
             echo "DOCKER_TAG=melvyndekort/hevc-encoder:$BRANCH" >> "$GITHUB_ENV"
           fi
 
