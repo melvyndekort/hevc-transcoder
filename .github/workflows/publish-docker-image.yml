@@ -37,9 +37,9 @@ jobs:
         run: |
           BRANCH="$(echo ${GITHUB_REF#refs/heads/})"
           if [[ "$BRANCH" == "main" ]]; then
-            echo "TAG=latest" >> "$GITHUB_ENV"
+            echo "DOCKER_TAG=melvyndekort/hevc-encoder:latest" >> "$GITHUB_ENV"
           else
-            echo "TAG=$BRANCH" >> "$GITHUB_ENV"
+            echo "DOCKER_TAG=melvyndekort/hevc-encoder:$BRANCH" >> "$GITHUB_ENV"
           fi
 
       - name: Build and push
@@ -47,5 +47,5 @@ jobs:
         with:
           context: docker
           push: true
-          tags: melvyndekort/hevc-encoder:${{ env.TAG }}"
+          tags: ${{ env.DOCKER_TAG }}"
           platforms: linux/amd64,linux/arm64
