@@ -1,3 +1,4 @@
+# Eventbridge -> Fargate role
 data "aws_iam_policy_document" "assume_eventbridge_fargate" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -29,7 +30,8 @@ data "aws_iam_policy_document" "eventbridge_fargate" {
       "iam:PassRole",
     ]
     resources = [
-      aws_iam_role.hevc_fargate.arn
+      aws_iam_role.hevc_fargate_execution.arn,
+      aws_iam_role.hevc_fargate_task.arn,
     ]
   }
 }
@@ -39,6 +41,7 @@ resource "aws_iam_role_policy" "eventbridge_fargate" {
   policy = data.aws_iam_policy_document.eventbridge_fargate.json
 }
 
+# Assume policy for both task and execution roles
 data "aws_iam_policy_document" "assume_hevc_fargate" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -50,13 +53,30 @@ data "aws_iam_policy_document" "assume_hevc_fargate" {
   }
 }
 
-resource "aws_iam_role" "hevc_fargate" {
-  name               = "hevc-fargate"
+# Fargate execution role
+resource "aws_iam_role" "hevc_fargate_execution" {
+  name               = "hevc-fargate-execution"
   path               = "/system/"
   assume_role_policy = data.aws_iam_policy_document.assume_hevc_fargate.json
 }
 
-data "aws_iam_policy_document" "hevc_fargate" {
+data "aws_iam_policy" "hevc_fargate_execution" {
+  name = "AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy_attachment" "hevc_fargate_execution" {
+  policy_arn = data.aws_iam_policy.hevc_fargate_execution.arn
+  role       = aws_iam_role.hevc_fargate_execution.name
+}
+
+# Fargate task role
+resource "aws_iam_role" "hevc_fargate_task" {
+  name               = "hevc-fargate-task"
+  path               = "/system/"
+  assume_role_policy = data.aws_iam_policy_document.assume_hevc_fargate.json
+}
+
+data "aws_iam_policy_document" "hevc_fargate_task" {
   statement {
     actions = [
       "s3:ListBucket*",
@@ -77,16 +97,7 @@ data "aws_iam_policy_document" "hevc_fargate" {
   }
 }
 
-resource "aws_iam_role_policy" "hevc_fargate" {
-  role   = aws_iam_role.hevc_fargate.name
-  policy = data.aws_iam_policy_document.hevc_fargate.json
-}
-
-data "aws_iam_policy" "hevc_fargate" {
-  name = "AmazonECSTaskExecutionRolePolicy"
-}
-
-resource "aws_iam_role_policy_attachment" "hevc_fargate" {
-  policy_arn = data.aws_iam_policy.hevc_fargate.arn
-  role       = aws_iam_role.hevc_fargate.name
+resource "aws_iam_role_policy" "hevc_fargate_task" {
+  role   = aws_iam_role.hevc_fargate_task.name
+  policy = data.aws_iam_policy_document.hevc_fargate_task.json
 }

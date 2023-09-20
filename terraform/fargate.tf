@@ -15,7 +15,8 @@ resource "aws_ecs_task_definition" "hevc_encoder" {
   network_mode             = "awsvpc"
   cpu                      = 2048
   memory                   = 4096
-  execution_role_arn       = aws_iam_role.hevc_fargate.arn
+  execution_role_arn       = aws_iam_role.hevc_fargate_execution.arn
+  task_role_arn            = aws_iam_role.hevc_fargate_task.arn
 
   container_definitions = jsonencode([
     {
