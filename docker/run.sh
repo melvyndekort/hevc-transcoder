@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 if [ "$S3_BUCKET_NAME" == "" ]; then
   echo "S3_BUCKET_NAME variable wasn't set"
   exit 254
@@ -18,11 +16,11 @@ echo "Processing $S3_OBJECT_KEY from $S3_BUCKET_NAME"
 
 echo "Downloading source file from S3"
 aws s3api get-object \
+  --endpoint-url "$ENDPOINT" \
   --no-cli-pager \
   --bucket "$S3_BUCKET_NAME" \
   --key "$S3_OBJECT_KEY" \
-  --endpoint-url "$ENDPOINT" \
-  source.mp4
+  source.mp4 || exit 252
 
 echo "Converting file to HEVC format"
 ffmpeg -nostdin \
@@ -31,19 +29,19 @@ ffmpeg -nostdin \
   -crf 26 \
   -preset fast \
   -c:a copy \
-  target.mp4
+  target.mp4 || exit 251
 
 echo "Uploading converted file back to S3"
 aws s3api put-object \
+  --endpoint-url "$ENDPOINT" \
   --no-cli-pager \
   --bucket "$S3_BUCKET_NAME" \
   --key "$TARGET_OBJECT_KEY" \
-  --body target.mp4 \
-  --endpoint-url "$ENDPOINT"
+  --body target.mp4 || exit 250
 
 echo "Deleting original file from S3"
 aws s3api delete-object \
+  --endpoint-url "$ENDPOINT" \
   --no-cli-pager \
   --bucket "$S3_BUCKET_NAME" \
-  --key "$S3_OBJECT_KEY" \
-  --endpoint-url "$ENDPOINT"
+  --key "$S3_OBJECT_KEY" || exit 249
