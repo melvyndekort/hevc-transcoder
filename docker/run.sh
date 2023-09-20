@@ -2,11 +2,11 @@
 
 set -e
 
-if [ ! -n "${S3_BUCKET_NAME+set}" ]; then
+if [ "$S3_BUCKET_NAME" == "" ]; then
   echo "S3_BUCKET_NAME variable wasn't set"
   exit 254
 fi
-if [ ! -n "${S3_OBJECT_KEY+set}" ]; then
+if [ "$S3_OBJECT_KEY" == "" ]; then
   echo "S3_OBJECT_KEY variable wasn't set"
   exit 253
 fi

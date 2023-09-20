@@ -4,7 +4,6 @@ locals {
     options = {
       awslogs-group         = "ecs-default",
       awslogs-region        = "eu-west-1",
-      awslogs-create-group  = "false",
       awslogs-stream-prefix = "hevc-encoder"
     }
   } : null
