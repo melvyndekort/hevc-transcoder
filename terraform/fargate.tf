@@ -1,3 +1,15 @@
+locals {
+  log_configuration = var.enable_logging ? {
+    logDriver = "awslogs"
+    options = {
+      awslogs-group         = "ecs-default",
+      awslogs-region        = "eu-west-1",
+      awslogs-create-group  = "false",
+      awslogs-stream-prefix = "hevc-encoder"
+    }
+  } : null
+}
+
 resource "aws_ecs_task_definition" "hevc_encoder" {
   family                   = "hevc-encoder"
   requires_compatibilities = ["FARGATE"]
@@ -8,9 +20,10 @@ resource "aws_ecs_task_definition" "hevc_encoder" {
 
   container_definitions = jsonencode([
     {
-      name      = "hevc-encoder"
-      image     = "registry.ipv6.docker.com/melvyndekort/hevc-encoder:latest"
-      essential = true
+      name             = "hevc-encoder"
+      image            = "registry.ipv6.docker.com/melvyndekort/hevc-encoder:latest"
+      essential        = true
+      logConfiguration = local.log_configuration
     }
   ])
 

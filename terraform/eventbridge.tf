@@ -35,8 +35,9 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
     launch_type         = "FARGATE"
 
     network_configuration {
-      subnets         = data.terraform_remote_state.cloudsetup.outputs.public_subnets
-      security_groups = [aws_security_group.hevc_encoder.id]
+      subnets          = data.terraform_remote_state.cloudsetup.outputs.public_subnets
+      security_groups  = [aws_security_group.hevc_encoder.id]
+      assign_public_ip = var.enable_logging
     }
   }
 
