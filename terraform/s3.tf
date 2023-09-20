@@ -42,3 +42,8 @@ resource "aws_s3_bucket_acl" "hevc" {
   bucket = aws_s3_bucket.hevc.id
   acl    = "private"
 }
+
+resource "aws_s3_bucket_notification" "hevc" {
+  bucket      = aws_s3_bucket.hevc.id
+  eventbridge = true
+}

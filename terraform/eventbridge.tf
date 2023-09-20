@@ -3,21 +3,14 @@ resource "aws_cloudwatch_event_rule" "s3_upload_mp4" {
   description = "Capture all upload events of mp4 files in an S3 bucket"
 
   event_pattern = jsonencode({
-    source      = ["aws.s3"],
-    detail-type = ["AWS API Call via CloudTrail"],
+    source      = [ "aws.s3" ],
+    detail-type = [ "Object Created" ],
     detail = {
-      eventSource = ["s3.amazonaws.com"],
-      eventName   = ["PutObject"],
-      requestParameters = {
-        bucketName = [aws_s3_bucket.hevc.id],
-        key = [
-          {
-            prefix = "TODO/"
-          },
-          {
-            suffix = ".mp4"
-          }
-        ]
+      bucket = {
+        name = [ aws_s3_bucket.hevc.id ]
+      }
+      object = {
+        key = [ { prefix = "TODO/" } ]
       }
     }
   })
@@ -53,14 +46,8 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
     {
       "name": "hevc-encoder",
       "environment": [
-        {
-          "name": "S3_BUCKET_NAME",
-          "value": <bucketname>
-        },
-        {
-          "name": "S3_OBJECT_KEY",
-          "value": <objectkey>
-        }
+        { "name": "S3_BUCKET_NAME", "value": "<bucketname>" },
+        { "name": "S3_OBJECT_KEY", "value": "<objectkey>" }
       ]
     }
   ]
