@@ -1,4 +1,4 @@
-name: "Docker"
+name: "Docker / hevc-download"
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches:
       - 'main'
     paths:
-    - 'docker/**'
+    - 'docker/hevc-download/**'
   pull_request:
 
 jobs:
@@ -18,13 +18,9 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-        with:
-          platforms: linux/amd64,linux/arm64
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        with:
-          platforms: linux/amd64,linux/arm64
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -37,15 +33,14 @@ jobs:
         run: |
           BRANCH="$(echo ${GITHUB_REF#refs/heads/})"
           if [[ "$BRANCH" == "main" ]]; then
-            echo "DOCKER_TAG=melvyndekort/hevc-encoder:latest" >> "$GITHUB_ENV"
+            echo "DOCKER_TAG=melvyndekort/hevc-download:latest" >> "$GITHUB_ENV"
           else
-            echo "DOCKER_TAG=melvyndekort/hevc-encoder:$BRANCH" >> "$GITHUB_ENV"
+            echo "DOCKER_TAG=melvyndekort/hevc-download:$BRANCH" >> "$GITHUB_ENV"
           fi
 
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: docker
+          context: docker/hevc-download
           push: true
           tags: ${{ env.DOCKER_TAG }}
-          platforms: linux/amd64,linux/arm64

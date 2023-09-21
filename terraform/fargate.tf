@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "hevc_encoder" {
   container_definitions = jsonencode([
     {
       name             = "hevc-encoder"
-      image            = "registry.ipv6.docker.com/melvyndekort/hevc-encoder:latest"
+      image            = "registry.ipv6.docker.com/melvyndekort/hevc-processor:latest"
       essential        = true
       logConfiguration = local.log_configuration
     }
