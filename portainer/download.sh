@@ -25,7 +25,7 @@ http --verify false \
 
 # Create the container
 echo "# Creating the container"
-CONTAINER_ID=$(http --verify false --offline \
+CONTAINER_ID=$(http --verify false \
   POST \
   $HOST/api/endpoints/$ENDPOINT_ID/docker/containers/create?name=hevc-portainer \
   Content-Type:application/json \
