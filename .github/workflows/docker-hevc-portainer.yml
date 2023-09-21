@@ -1,4 +1,4 @@
-name: "Docker / hevc-download"
+name: "Docker / hevc-portainer"
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches:
       - 'main'
     paths:
-    - 'docker/hevc-download/**'
+    - 'docker/hevc-portainer/**'
   pull_request:
 
 jobs:
@@ -33,14 +33,14 @@ jobs:
         run: |
           BRANCH="$(echo ${GITHUB_REF#refs/heads/})"
           if [[ "$BRANCH" == "main" ]]; then
-            echo "DOCKER_TAG=melvyndekort/hevc-download:latest" >> "$GITHUB_ENV"
+            echo "DOCKER_TAG=melvyndekort/hevc-portainer:latest" >> "$GITHUB_ENV"
           else
-            echo "DOCKER_TAG=melvyndekort/hevc-download:$BRANCH" >> "$GITHUB_ENV"
+            echo "DOCKER_TAG=melvyndekort/hevc-portainer:$BRANCH" >> "$GITHUB_ENV"
           fi
 
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: docker/hevc-download
+          context: docker/hevc-portainer
           push: true
           tags: ${{ env.DOCKER_TAG }}
