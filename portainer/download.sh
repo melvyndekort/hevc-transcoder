@@ -19,18 +19,21 @@ http --verify false \
   $HOST/api/endpoints/$ENDPOINT_ID/docker/images/create \
   Content-Type:application/json \
   X-API-Key:$PORTAINER_API_KEY \
-  fromImage==melvyndekort/hevc-download \
+  fromImage==melvyndekort/hevc-portainer \
   tag==latest \
   -p m
 
 # Create the container
 echo "# Creating the container"
-CONTAINER_ID=$(http --verify false \
+CONTAINER_ID=$(http --verify false --offline \
   POST \
-  $HOST/api/endpoints/$ENDPOINT_ID/docker/containers/create?name=hevc-download \
+  $HOST/api/endpoints/$ENDPOINT_ID/docker/containers/create?name=hevc-portainer \
   Content-Type:application/json \
   X-API-Key:$PORTAINER_API_KEY \
-  Image=melvyndekort/hevc-download:latest \
+  Image=melvyndekort/hevc-portainer:latest \
+  Cmd[0]=/bin/sh \
+  Cmd[1]=-c \
+  Cmd[2]=/download.sh \
   Env[]=AWS_REGION=eu-west-1 \
   Env[]=AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
   Env[]=AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
