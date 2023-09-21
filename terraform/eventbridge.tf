@@ -25,7 +25,6 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
   ecs_target {
     task_count          = 1
     task_definition_arn = aws_ecs_task_definition.hevc_encoder.arn
-    launch_type         = "FARGATE"
 
     network_configuration {
       subnets          = data.terraform_remote_state.cloudsetup.outputs.public_subnets
