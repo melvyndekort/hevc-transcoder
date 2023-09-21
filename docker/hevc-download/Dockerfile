@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --update --no-cache aws-cli rsync
+RUN apk add --update --no-cache aws-cli
 
 COPY run.sh /
 
