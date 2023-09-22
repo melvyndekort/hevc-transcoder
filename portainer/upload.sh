@@ -3,7 +3,6 @@
 set -e
 
 apk add --update --no-cache httpie jq
-source .env
 
 # Get the endpoint id
 echo "# Get the endpoint id"
