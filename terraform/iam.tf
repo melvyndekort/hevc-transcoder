@@ -79,6 +79,8 @@ resource "aws_iam_role" "hevc_fargate_task" {
 data "aws_iam_policy_document" "hevc_fargate_task" {
   statement {
     actions = [
+      "s3:GetBucket*",
+      "s3:HeadBucket",
       "s3:ListBucket*",
     ]
     resources = [
@@ -89,6 +91,8 @@ data "aws_iam_policy_document" "hevc_fargate_task" {
     actions = [
       "s3:DeleteObject*",
       "s3:GetObject*",
+      "s3:HeadObject*",
+      "s3:ListObject*",
       "s3:PutObject*",
     ]
     resources = [
