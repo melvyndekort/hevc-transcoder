@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -xe
+set -e
 
 aws s3api list-objects-v2 --no-cli-pager --bucket mdekort.hevc --prefix DONE --query "Contents[].Key" --output text | tr '\t' '\n' | \
 while read KEY; do
