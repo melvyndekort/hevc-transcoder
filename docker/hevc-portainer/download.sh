@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -xe
 
 aws s3api list-objects-v2 --no-cli-pager --bucket mdekort.hevc --prefix DONE --query "Contents[].Key" --output yaml | \
 sed 's#^- ##' | \
