@@ -19,11 +19,9 @@ echo "ENDPOINT_ID = $ENDPOINT_ID"
 echo "# Pulling the image"
 http --verify false \
   POST \
-  $HOST/api/endpoints/$ENDPOINT_ID/docker/images/create \
+  $HOST/api/endpoints/$ENDPOINT_ID/docker/images/create?fromImage=melvyndekort/hevc-portainer:latest \
   Content-Type:application/json \
   X-API-Key:$PORTAINER_API_KEY \
-  fromImage==melvyndekort/hevc-portainer \
-  tag==latest \
   -p m
 
 # Create the container
