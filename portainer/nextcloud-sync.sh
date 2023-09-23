@@ -26,14 +26,18 @@ CONTAINER_ID=$(http --verify false \
   Cmd[1]=-c \
   Cmd[2]=/nextcloud-sync.sh \
   HostConfig[AutoRemove]:=true \
-  HostConfig[Mounts][0][Target]=/source \
-  HostConfig[Mounts][0][Source]=/var/mnt/storage/nextcloud \
+  HostConfig[Mounts][0][Target]=/var/run/docker.sock \
+  HostConfig[Mounts][0][Source]=/var/run/docker.sock \
   HostConfig[Mounts][0][Type]=bind \
-  HostConfig[Mounts][0][ReadOnly]:=false \
-  HostConfig[Mounts][1][Target]=/target \
-  HostConfig[Mounts][1][Source]=/var/mnt/storage/photos \
+  HostConfig[Mounts][0][ReadOnly]:=true \
+  HostConfig[Mounts][1][Target]=/source \
+  HostConfig[Mounts][1][Source]=/var/mnt/storage/nextcloud \
   HostConfig[Mounts][1][Type]=bind \
-  HostConfig[Mounts][1][ReadOnly]:=false | \
+  HostConfig[Mounts][1][ReadOnly]:=false \
+  HostConfig[Mounts][2][Target]=/target \
+  HostConfig[Mounts][2][Source]=/var/mnt/storage/photos \
+  HostConfig[Mounts][2][Type]=bind \
+  HostConfig[Mounts][2][ReadOnly]:=false | \
   jq -r '.Id'
 )
 echo "CONTAINER_ID = $CONTAINER_ID"
