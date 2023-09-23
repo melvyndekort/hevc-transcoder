@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 # Sync pictures to their target folders
 rsync --dry-run -a --remove-source-files /source/melvyndekort/files/InstantUpload/Camera/ /target/Smartphones/melvyn/
 rsync --dry-run -a --remove-source-files /source/kaatjeislief/files/InstantUpload/Camera/ /target/Smartphones/karin/
