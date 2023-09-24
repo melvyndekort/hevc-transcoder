@@ -2,10 +2,10 @@
 
 HEVC encode all the MP4 files that are uploaded to an S3 bucket
 
-It contains 3 main functions:
-* Moving files from Nextcloud to persistent storage
-* Uploading .mp4 files to S3 for processing (conversion to H265 format)
-* Downloading processed files from S3 to persistent storage
+This repository contains 3 main functions:
+* Move files from Nextcloud to persistent storage
+* Upload .mp4 files to S3 for processing (conversion to H265 format)
+* Download processed files from S3 to persistent storage
 
 ## Moving files from Nextcloud to persistent storage
 Files will be moved from source to target over the WebDAV protocol of Nextcloud using `rclone`.
