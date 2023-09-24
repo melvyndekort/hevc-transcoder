@@ -1,18 +1,25 @@
 #!/bin/sh
 
-# Sync pictures to their target folders
-rsync -av --remove-source-files /source/melvyndekort/files/InstantUpload/Camera/ /target/Smartphones/melvyn/
-rsync -av --remove-source-files /source/kaatjeislief/files/InstantUpload/Camera/ /target/Smartphones/karin/
-rsync -av --remove-source-files /source/daandekort/files/InstantUpload/Camera/   /target/Smartphones/daan/
+set -e
 
-# Remove empty directories
-find /source/melvyndekort/files -type d -empty -delete
-find /source/kaatjeislief/files -type d -empty -delete
-find /source/daandekort/files   -type d -empty -delete
+# File operations using rclone
+for USER in $(env | grep "^NC_PASS_" | cut -d= -f1 | sed 's/^NC_PASS_//'); do
+  OBS_PASS="$(env | grep "^NC_PASS_${USER}" | cut -d= -f2- | rclone obscure -)"
 
-# Rebuild the nextcloud index
-docker exec --user www-data nextcloud php occ files:scan --all
-docker exec --user www-data nextcloud php occ files:repair-tree
+  rclone config create \
+    --non-interactive \
+    $USER \
+    webdav \
+    url http://nextcloud/remote.php/dav/files/$USER \
+    vendor nextcloud \
+    user $USER \
+    pass $OBS_PASS
+
+  rclone copy --dry-run -v $USER:InstantUpload/Camera /target/Smartphones/$USER
+  rclone purge --dry-run -v $USER:InstantUpload/Camera
+
+  rclone config delete $USER
+done
 
 # Fix permissions of target folder
 chown -R root:root /target
