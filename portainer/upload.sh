@@ -8,7 +8,7 @@ apk add --update --no-cache httpie jq
 echo "# Get the endpoint id"
 ENDPOINT_ID=$(http --verify false \
   GET \
-  $HOST/api/endpoints \
+  $PORTAINER_HOST/api/endpoints \
   X-API-Key:$PORTAINER_API_KEY | \
   jq -r '.[] | select(.Name=="lmserver").Id'
 )
@@ -18,7 +18,7 @@ echo "ENDPOINT_ID = $ENDPOINT_ID"
 echo "# Creating the container"
 CONTAINER_ID=$(http --verify false \
   POST \
-  $HOST/api/endpoints/$ENDPOINT_ID/docker/containers/create?name=hevc-portainer \
+  $PORTAINER_HOST/api/endpoints/$ENDPOINT_ID/docker/containers/create?name=hevc-portainer \
   Content-Type:application/json \
   X-API-Key:$PORTAINER_API_KEY \
   Image=melvyndekort/hevc-portainer:latest \
@@ -42,7 +42,7 @@ echo "CONTAINER_ID = $CONTAINER_ID"
 echo "# Starting the container"
 http --verify false \
   POST \
-  $HOST/api/endpoints/$ENDPOINT_ID/docker/containers/$CONTAINER_ID/start \
+  $PORTAINER_HOST/api/endpoints/$ENDPOINT_ID/docker/containers/$CONTAINER_ID/start \
   Content-Type:application/json \
   X-API-Key:$PORTAINER_API_KEY \
   --raw='{}' \
