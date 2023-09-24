@@ -15,7 +15,7 @@ for USER in $(env | grep "^NC_PASS_" | cut -d= -f1 | sed 's/^NC_PASS_//'); do
     user $USER \
     pass $OBS_PASS
 
-  rclone copy --dry-run -v $USER:InstantUpload/Camera /target/Smartphones/$USER
+  rclone copy -v $USER:InstantUpload/Camera /target/Smartphones/$USER
   rclone purge --dry-run -v $USER:InstantUpload/Camera
 
   rclone config delete $USER

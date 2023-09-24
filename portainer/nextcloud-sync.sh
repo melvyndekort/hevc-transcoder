@@ -22,12 +22,10 @@ CONTAINER_ID=$(http --verify false \
   Content-Type:application/json \
   X-API-Key:$PORTAINER_API_KEY \
   Image=melvyndekort/hevc-portainer:latest \
-  Cmd[0]=/bin/bash \
+  Cmd[0]=/bin/sh \
   Cmd[1]=-c \
   Cmd[2]=/nextcloud-sync.sh \
   Env[]=NC_PASS_melvyndekort=$NC_PASS_melvyndekort \
-  Env[]=NC_PASS_kaatjeislief=$NC_PASS_kaatjeislief \
-  Env[]=NC_PASS_daandekort=$NC_PASS_daandekort \
   HostConfig[AutoRemove]:=false \
   HostConfig[Mounts][0][Target]=/target \
   HostConfig[Mounts][0][Source]=/var/mnt/storage/photos \
