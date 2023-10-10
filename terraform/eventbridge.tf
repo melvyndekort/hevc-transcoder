@@ -10,7 +10,7 @@ resource "aws_cloudwatch_event_rule" "s3_upload_mp4" {
         name = [aws_s3_bucket.hevc.id]
       }
       object = {
-        key = [{ prefix = "TODO/" }]
+        key = [{ wildcard = "TODO/*.mp4" }]
       }
     }
   })
