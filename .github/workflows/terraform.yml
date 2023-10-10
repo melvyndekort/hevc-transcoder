@@ -6,27 +6,26 @@ on:
     branches:
       - main
     paths:
-    - 'terraform/**'
+      - '.github/workflows/terraform.yml'
+      - 'terraform/**'
   pull_request:
 
 permissions:
   id-token: write
   contents: read
 
-defaults:
-  run:
-    working-directory: terraform
-
-env:
-  TF_TOKEN_app_terraform_io: "${{ secrets.TF_API_TOKEN }}"
-
 jobs:
   terraform:
     name: "Terraform"
     runs-on: ubuntu-latest
+    env:
+      TF_TOKEN_app_terraform_io: "${{ secrets.TF_API_TOKEN }}"
+    defaults:
+      run:
+      working-directory: terraform
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -66,18 +65,24 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
             <details><summary>Show Plan</summary>
+
             \`\`\`\n
             ${process.env.PLAN}
             \`\`\`
+
             </details>
-            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
             })
+
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
