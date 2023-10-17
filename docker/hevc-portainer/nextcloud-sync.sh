@@ -22,5 +22,4 @@ done
 
 # Fix permissions of target folder
 chown -R root:root /target
-find /target -type d -exec chmod 755 {} \;
-find /target -type f -exec chmod 644 {} \;
+chmod -R ugo-x,u+rwX,go+rX,go-w /target
