@@ -22,16 +22,12 @@ CONTAINER_ID=$(http --verify false \
   Content-Type:application/json \
   X-API-Key:$PORTAINER_API_KEY \
   Image=melvyndekort/hevc-portainer:latest \
-  WorkingDir=/data \
-  Cmd[0]=upload.sh \
-  Env[]=AWS_REGION=eu-west-1 \
-  Env[]=AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-  Env[]=AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+  Cmd[0]=trigger.py \
   HostConfig[AutoRemove]:=true \
-  HostConfig[Mounts][0][Target]=/data \
+  HostConfig[Mounts][0][Target]=/target \
   HostConfig[Mounts][0][Source]=/var/mnt/storage/photos \
   HostConfig[Mounts][0][Type]=bind \
-  HostConfig[Mounts][0][ReadOnly]:=true | \
+  HostConfig[Mounts][0][ReadOnly]:=false | \
   jq -r '.Id'
 )
 echo "CONTAINER_ID = $CONTAINER_ID"
