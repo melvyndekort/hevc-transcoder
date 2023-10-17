@@ -6,9 +6,11 @@ import time
 
 _default_bucket = 'mdekort.hevc'
 
+s3 = boto3.client('s3')
+events = boto3.client('events')
+
 def get_keys(bucket=_default_bucket):
-  client = boto3.client('s3')
-  object_list = client.list_objects_v2(
+  object_list = s3.list_objects_v2(
     Bucket=bucket,
     Prefix='TODO/'
   )
@@ -40,8 +42,7 @@ def publish_events(bucket=_default_bucket):
   entries = build_entries(keys, bucket)
 
   if len(entries) > 0:
-    client = boto3.client('events')
-    result = client.put_events(
+    result = events.put_events(
       Entries=entries
     )
 
