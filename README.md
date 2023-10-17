@@ -2,9 +2,10 @@
 
 HEVC encode all the MP4 files that are uploaded to an S3 bucket
 
-This repository contains 3 main functions:
+This repository contains 4 main functions:
 * Move files from Nextcloud to persistent storage
 * Upload .mp4 files to S3 for processing (conversion to H265 format)
+* Re-process uploaded .mp4 files (when processing has failed for some reason)
 * Download processed files from S3 to persistent storage
 
 ## Moving files from Nextcloud to persistent storage
@@ -14,9 +15,7 @@ Since this is a server side operation, it runs in a Docker container (`melvyndek
 
 It's possible to run this container on Portainer using a script for convenience purposes:
 ```bash
-cd portainer
-./alpine.sh
-./nextcloud-sync.sh
+make sync
 ```
 
 ## Uploading .mp4 files to AWS S3
@@ -27,9 +26,18 @@ The processing itself happens in the `melvyndekort/hevc-processor` Docker image.
 
 It's possible to run this container on Portainer using a script for convenience purposes:
 ```bash
-cd portainer
-./alpine.sh
-./upload.sh
+make upload
+```
+
+## Re-process uploaded .mp4 files
+In a previous step files have been uploaded to AWS S3, but processing has failed for some reason.
+Events will be re-published for each file which will trigger AWS ECS Fargate containers to start processing.
+Since uploading is a server side operation, it runs in a Docker container (`melvyndekort/hevc-portainer`).
+The processing itself happens in the `melvyndekort/hevc-processor` Docker image.
+
+It's possible to run this container on Portainer using a script for convenience purposes:
+```bash
+make trigger
 ```
 
 ## Downloading processed .mp4 files from AWS S3
@@ -39,7 +47,5 @@ Since this is a server side operation, it runs in a Docker container (`melvyndek
 
 It's possible to run this container on Portainer using a script for convenience purposes:
 ```bash
-cd portainer
-./alpine.sh
-./download.sh
+make download
 ```
