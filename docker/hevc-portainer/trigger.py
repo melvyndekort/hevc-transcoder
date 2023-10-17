@@ -23,31 +23,41 @@ def get_keys(bucket=_default_bucket):
   return keys
 
 def build_entries(keys, bucket=_default_bucket):
-  events = []
+  entries = []
   for key in keys:
-    event.append({
+    entries.append({
       'Time': int(time.time()),
       'Source': 'mdekort.hevc',
       'DetailType': 'Manual Trigger',
-      'Detail': {
-        'bucket': bucket,
-        'key': key
-      }
+      'Resources': [],
+      'Detail': json.dumps({
+        'bucket': {
+          'name': bucket
+        },
+        'object': {
+          'key': key
+        }
+      })
     })
 
-  return events
+  return entries
 
 def publish_events(bucket=_default_bucket):
   keys = get_keys(bucket)
   entries = build_entries(keys, bucket)
 
   if len(entries) > 0:
-    result = events.put_events(
-      Entries=entries
-    )
+    for i in range(0, len(entries), 10):
+      batch = entries[i:i+10]
 
-    if result['FailedEntryCount'] > 0:
-      for entry in result['Entries']:
-        print(entry['ErrorMessage'])
+      result = events.put_events(
+        Entries=batch
+      )
+
+      if result['FailedEntryCount'] > 0:
+        for entry in result['Entries']:
+          print(entry['ErrorMessage'])
+      else:
+        print(f'Successfully published {len(batch)} entries')
 
 publish_events(_default_bucket)
