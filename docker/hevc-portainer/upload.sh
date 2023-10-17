@@ -1,6 +1,7 @@
 #!/bin/sh
 
 find . -name '*.mp4' ! -name '*-hevc.mp4' | while read FILE; do
+  echo "Processing $FILE"
 
   # Delete file when processed file is already present
   DONE_FILE="$(echo $FILE | sed 's/.mp4$/-hevc.mp4/')"
@@ -18,5 +19,6 @@ find . -name '*.mp4' ! -name '*-hevc.mp4' | while read FILE; do
   aws s3api head-object --no-cli-pager --bucket mdekort.hevc --key TODO/$KEY && continue
 
   # Upload to S3 for processing
+  echo "Uploading $FILE"
   aws s3api put-object --no-cli-pager --bucket mdekort.hevc --key TODO/$KEY --body $FILE
 done
