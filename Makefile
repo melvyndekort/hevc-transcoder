@@ -2,7 +2,7 @@
 
 shell:
 	@docker container run --rm -it \
-	-v ./portainer:/scripts \
+	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
   alpine:latest \
@@ -10,7 +10,7 @@ shell:
 
 sync:
 	@docker container run --rm -it \
-	-v ./portainer:/scripts \
+	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
   alpine:latest \
@@ -18,7 +18,7 @@ sync:
 
 upload:
 	@docker container run --rm -it \
-	-v ./portainer:/scripts \
+	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
   alpine:latest \
@@ -26,7 +26,7 @@ upload:
 
 trigger:
 	@docker container run --rm -it \
-	-v ./portainer:/scripts \
+	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
   alpine:latest \
@@ -34,7 +34,7 @@ trigger:
 
 download:
 	@docker container run --rm -it \
-	-v ./portainer:/scripts \
+	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
   alpine:latest \
