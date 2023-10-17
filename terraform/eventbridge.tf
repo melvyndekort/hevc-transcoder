@@ -3,8 +3,8 @@ resource "aws_cloudwatch_event_rule" "s3_upload_mp4" {
   description = "Capture all upload events of mp4 files in an S3 bucket"
 
   event_pattern = jsonencode({
-    source      = ["aws.s3"],
-    detail-type = ["Object Created"],
+    source      = ["aws.s3", "mdekort.hevc"],
+    detail-type = ["Object Created", "Manual Trigger"],
     detail = {
       bucket = {
         name = [aws_s3_bucket.hevc.id]
