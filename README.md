@@ -4,9 +4,8 @@ HEVC encode all the MP4 files that are uploaded to an S3 bucket
 
 This repository contains 4 main functions:
 * Move files from Nextcloud to persistent storage
-* Upload .mp4 files to S3 for processing (conversion to H265 format)
+* Process .mp4 files by AWS ECS Fargate (conversion to H265 format)
 * Re-process uploaded .mp4 files (when processing has failed for some reason)
-* Download processed files from S3 to persistent storage
 
 ## Moving files from Nextcloud to persistent storage
 Files will be moved from source to target over the WebDAV protocol of Nextcloud using `rclone`.
@@ -18,15 +17,17 @@ It's possible to run this container on Portainer using a script for convenience 
 make sync
 ```
 
-## Uploading .mp4 files to AWS S3
-Files will be uploaded from persistent storage and uploaded to AWS S3.
+## Process .mp4 files
+Files will be fetched from persistent storage and uploaded to AWS S3 (prefix `TODO/`).
 Events will be published for each file which will trigger AWS ECS Fargate containers to start processing.
-Since uploading is a server side operation, it runs in a Docker container (`melvyndekort/hevc-portainer`).
+After files have been processed by AWS ECS Fargate, they will get pushed back to AWS S3 (prefix `DONE/`).
+These files will then get downloaded and placed in persistent storage.
+Since uploading and downloading are server side operations, it runs in a Docker container (`melvyndekort/hevc-portainer`).
 The processing itself happens in the `melvyndekort/hevc-processor` Docker image.
 
 It's possible to run this container on Portainer using a script for convenience purposes:
 ```bash
-make upload
+make process
 ```
 
 ## Re-process uploaded .mp4 files
@@ -40,12 +41,5 @@ It's possible to run this container on Portainer using a script for convenience 
 make trigger
 ```
 
-## Downloading processed .mp4 files from AWS S3
-After files have been processed by AWS ECS Fargate, they will get pushed to a separate prefix (`DONE/`) in AWS S3.
-The download script will download these files and place them in persistent storage.
-Since this is a server side operation, it runs in a Docker container (`melvyndekort/hevc-portainer`).
-
-It's possible to run this container on Portainer using a script for convenience purposes:
-```bash
-make download
-```
+## TODO
+- Implement a skip-upload flag in `process` script

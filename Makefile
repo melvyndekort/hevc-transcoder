@@ -1,4 +1,4 @@
-.PHONY = shell sync upload trigger download
+.PHONY = shell sync process trigger
 
 shell:
 	@docker container run --rm -it \
@@ -16,13 +16,13 @@ sync:
   alpine:latest \
   ./nextcloud-sync.sh
 
-upload:
+process:
 	@docker container run --rm -it \
 	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
   alpine:latest \
-  ./upload.sh
+  ./process.sh
 
 trigger:
 	@docker container run --rm -it \
@@ -31,11 +31,3 @@ trigger:
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
   alpine:latest \
   ./trigger.sh
-
-download:
-	@docker container run --rm -it \
-	-v ./deploy-scripts:/scripts \
-	-w /scripts \
-  $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
-  alpine:latest \
-  ./download.sh
