@@ -102,6 +102,8 @@ data "aws_iam_policy_document" "hevc_fargate_task" {
   statement {
     actions = [
       "events:PutEvents",
+      "ecs:ListTasks",
+      "ecs:DescribeTasks",
     ]
     resources = ["*"]
   }

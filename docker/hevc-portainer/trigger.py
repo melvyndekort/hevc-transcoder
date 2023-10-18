@@ -78,6 +78,6 @@ def publish_events(bucket=_default_bucket):
         for entry in result['Entries']:
           print(entry['ErrorMessage'])
       else:
-        print(f'Successfully published {len(batch)} entries')
+        print(f'Successfully published {len(batch)} events')
 
 publish_events(_default_bucket)
