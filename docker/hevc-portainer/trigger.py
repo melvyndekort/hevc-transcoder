@@ -22,6 +22,23 @@ def get_keys(bucket=_default_bucket):
         keys.append(entry['Key'])
   return keys
 
+def get_processing_keys():
+  ecs = boto3.client('ecs')
+  tasks = ecs.list_tasks()
+
+  results = ecs.describe_tasks(
+    tasks=tasks['taskArns']
+  )
+
+  processing_list = []
+  for task in results['tasks']:
+    for override in task['overrides']['containerOverrides']:
+      for environment in override['environment']:
+        if environment['name'] == 'S3_OBJECT_KEY':
+          processing_list.append(environment['value'])
+
+  return processing_list
+
 def build_entries(keys, bucket=_default_bucket):
   entries = []
   for key in keys:
@@ -44,7 +61,10 @@ def build_entries(keys, bucket=_default_bucket):
 
 def publish_events(bucket=_default_bucket):
   keys = get_keys(bucket)
-  entries = build_entries(keys, bucket)
+  processing = get_processing_keys()
+  todo_keys = [x for x in keys if (x not in processing)]
+
+  entries = build_entries(todo_keys, bucket)
 
   if len(entries) > 0:
     for i in range(0, len(entries), 10):
