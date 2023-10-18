@@ -41,7 +41,10 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
     arn = aws_sqs_queue.hevc_dlq.arn
   }
 
-  retry_policy {}
+  retry_policy {
+    maximum_event_age_in_seconds = 86400
+    maximum_retry_attempts       = 185
+  }
 
   input_transformer {
     input_paths = {
