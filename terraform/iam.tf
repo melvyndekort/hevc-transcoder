@@ -99,6 +99,12 @@ data "aws_iam_policy_document" "hevc_fargate_task" {
       "${aws_s3_bucket.hevc.arn}/*",
     ]
   }
+  statement {
+    actions = [
+      "events:PutEvents",
+    ]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_role_policy" "hevc_fargate_task" {
