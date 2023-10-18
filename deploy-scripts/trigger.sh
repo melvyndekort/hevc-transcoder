@@ -23,6 +23,9 @@ CONTAINER_ID=$(http --verify false \
   X-API-Key:$PORTAINER_API_KEY \
   Image=melvyndekort/hevc-portainer:latest \
   Cmd[0]=trigger.py \
+  Env[]=AWS_DEFAULT_REGION=eu-west-1 \
+  Env[]=AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+  Env[]=AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
   HostConfig[AutoRemove]:=true \
   HostConfig[Mounts][0][Target]=/target \
   HostConfig[Mounts][0][Source]=/var/mnt/storage/photos \
