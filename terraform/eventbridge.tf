@@ -16,6 +16,10 @@ resource "aws_cloudwatch_event_rule" "s3_upload_mp4" {
   })
 }
 
+resource "aws_sqs_queue" "hevc_dlq" {
+  name = "hevc-dlq"
+}
+
 resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
   target_id = "fargate-hevc-encoder"
   rule      = aws_cloudwatch_event_rule.s3_upload_mp4.name
@@ -31,6 +35,10 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
       security_groups  = [aws_security_group.hevc_encoder.id]
       assign_public_ip = var.enable_logging
     }
+  }
+
+  dead_letter_config {
+    arn = aws_sqs_queue.hevc_dlq.arn
   }
 
   input_transformer {
