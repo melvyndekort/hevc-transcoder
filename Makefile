@@ -5,7 +5,7 @@ shell:
 	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
-  alpine:latest \
+  melvyndekort/portainer-api-client:latest \
   /bin/sh
 
 sync:
@@ -13,7 +13,7 @@ sync:
 	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
-  alpine:latest \
+  melvyndekort/portainer-api-client:latest \
   ./nextcloud-sync.sh
 
 process:
@@ -21,7 +21,7 @@ process:
 	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
-  alpine:latest \
+  melvyndekort/portainer-api-client:latest \
   ./process.sh
 
 trigger:
@@ -29,5 +29,5 @@ trigger:
 	-v ./deploy-scripts:/scripts \
 	-w /scripts \
   $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
-  alpine:latest \
+  melvyndekort/portainer-api-client:latest \
   ./trigger.sh
