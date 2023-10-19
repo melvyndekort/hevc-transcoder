@@ -11,6 +11,8 @@ COPY *.py /opt/venv/bin/
 
 FROM python:3.11-alpine AS deploy
 
+LABEL org.opencontainers.image.source http://github.com/melvyndekort/hevc-encoder
+
 RUN apk add --update --no-cache rclone aws-cli
 RUN mkdir /hevc
 
