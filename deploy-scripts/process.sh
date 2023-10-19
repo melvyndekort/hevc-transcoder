@@ -23,7 +23,7 @@ CONTAINER_ID=$(http --verify false \
   X-API-Key:$PORTAINER_API_KEY \
   Image=melvyndekort/hevc-portainer:latest \
   WorkingDir=/data \
-  Cmd[0]=process.sh \
+  Cmd[0]=process.py \
   Env[]=AWS_REGION=eu-west-1 \
   Env[]=AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
   Env[]=AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
