@@ -5,15 +5,31 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    assignees:
+      - "melvyndekort"
+    reviewers:
+      - "melvyndekort"
   - package-ecosystem: "docker"
     directory: "/docker"
     schedule:
       interval: "weekly"
+    assignees:
+      - "melvyndekort"
+    reviewers:
+      - "melvyndekort"
   - package-ecosystem: "pip"
     directory: "/docker"
     schedule:
       interval: "weekly"
+    assignees:
+      - "melvyndekort"
+    reviewers:
+      - "melvyndekort"
   - package-ecosystem: "terraform"
     directory: "/terraform"
     schedule:
       interval: "weekly"
+    assignees:
+      - "melvyndekort"
+    reviewers:
+      - "melvyndekort"
