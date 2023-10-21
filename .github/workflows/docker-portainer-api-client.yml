@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'main'
+      - main
     paths:
       - '.github/workflows/docker-portainer-api-client.yml'
       - 'docker/portainer-api-client/**'
