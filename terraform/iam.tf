@@ -144,6 +144,6 @@ data "aws_iam_policy_document" "lmbackup" {
 }
 
 resource "aws_iam_user_policy" "lmbackup" {
-  user   = data.terraform_remote_state.cloudsetup.output.lmbackup_user
+  user   = data.terraform_remote_state.cloudsetup.outputs.lmbackup_user
   policy = data.aws_iam_policy_document.lmbackup.json
 }
