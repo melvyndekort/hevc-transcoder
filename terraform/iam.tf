@@ -128,3 +128,22 @@ resource "aws_iam_user_policy" "portainer_hevc" {
   user   = aws_iam_user.portainer_hevc.name
   policy = data.aws_iam_policy_document.hevc_fargate_task.json
 }
+
+# lmbackup user
+data "aws_iam_policy_document" "lmbackup" {
+  statement {
+    actions = [
+      "s3:GetObject*",
+      "s3:HeadObject*",
+      "s3:PutObject*",
+    ]
+    resources = [
+      "${aws_s3_bucket.hevc.arn}/*",
+    ]
+  }
+}
+
+resource "aws_iam_user_policy" "lmbackup" {
+  user   = data.terraform_remote_state.cloudsetup.output.lmbackup_user
+  policy = data.aws_iam_policy_document.lmbackup.json
+}
