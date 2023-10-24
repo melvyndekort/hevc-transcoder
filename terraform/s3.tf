@@ -6,9 +6,25 @@ resource "aws_s3_bucket_lifecycle_configuration" "hevc" {
   bucket = aws_s3_bucket.hevc.id
 
   rule {
-    id = "delete-old-files"
+    id = "delete-todo-files"
 
-    filter {}
+    filter {
+      prefix = "TODO/"
+    }
+
+    expiration {
+      days = 1
+    }
+
+    status = "Enabled"
+  }
+
+  rule {
+    id = "delete-processed-files"
+
+    filter {
+      prefix = "DONE/"
+    }
 
     expiration {
       days = 3
