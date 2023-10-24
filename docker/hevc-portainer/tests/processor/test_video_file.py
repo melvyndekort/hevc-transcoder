@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+
+import os
+import pytest
+import tempfile
+
+from pathlib import Path
+from moto import mock_s3
+
+def test_creation(bucket):
+  from processor.video_file import VideoFile
+
+  obj = VideoFile('basedir', 'filename')
+  assert str(obj) == 'basedir/filename'
+  assert obj.key['todo'] == 'TODO/filename'
+  assert obj.key['done'] == 'DONE/filename'
+
+def test_upload(s3, basedir, bucket):
+  filename = 'file.mp4'
+  with open(f'{basedir}/{filename}', 'w') as fp:
+    pass
+
+  from processor.video_file import VideoFile
+  obj = VideoFile(basedir, filename)
+  assert not obj.uploaded
+
+  obj.upload_for_processing()
+
+  assert obj.uploaded
+  assert s3.head_object(Bucket=bucket, Key=f'TODO/{filename}')
+
+def test_download_processed(s3, basedir, bucket):
+  source = 'file.mp4'
+  target = 'file-hevc.mp4'
+
+  with open(f'{basedir}/{source}', 'w') as fp:
+    pass
+
+  s3.put_object(
+    Bucket=bucket,
+    Key=f'DONE/{target}',
+    Body=''
+  )
+
+  from processor.video_file import VideoFile
+  obj = VideoFile(basedir, source)
+  obj.download_processed()
+
+  assert not Path(f'{basedir}/{source}').is_file()
+  assert Path(f'{basedir}/{target}').is_file()
+
+def test_is_processing(s3, basedir, bucket):
+  source = 'file.mp4'
+
+  from processor.video_file import VideoFile
+  obj = VideoFile(basedir, source)
+
+  assert not obj.is_processing()
+
+  s3.put_object(
+    Bucket=bucket,
+    Key=f'TODO/{source}',
+    Body=''
+  )
+
+  assert obj.is_processing()
+
+def test_is_done(s3, basedir, bucket):
+  source = 'file.mp4'
+  target = 'file-hevc.mp4'
+
+  from processor.video_file import VideoFile
+  obj = VideoFile(basedir, source)
+
+  assert not obj.is_done()
+
+  s3.put_object(
+    Bucket=bucket,
+    Key=f'DONE/{target}',
+    Body=''
+  )
+
+  assert obj.is_done()

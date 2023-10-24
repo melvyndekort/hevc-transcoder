@@ -1,33 +1,17 @@
-.PHONY = shell sync process trigger
+.PHONY = clean install test build full-build
+.DEFAULT_GOAL := full-build
 
-shell:
-	@docker container run --rm -it \
-	-v ./deploy-scripts:/scripts \
-	-w /scripts \
-  $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
-  melvyndekort/portainer-api-client:latest \
-  /bin/sh
+clean:
+	@cd docker/hevc-portainer; rm -rf .pytest_cache dist */__pycache__
 
-sync:
-	@docker container run --rm -it \
-	-v ./deploy-scripts:/scripts \
-	-w /scripts \
-  $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
-  melvyndekort/portainer-api-client:latest \
-  ./nextcloud-sync.sh
+install:
+	@cd docker/hevc-portainer; poetry install
 
-process:
-	@docker container run --rm -it \
-	-v ./deploy-scripts:/scripts \
-	-w /scripts \
-  $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
-  melvyndekort/portainer-api-client:latest \
-  ./process.sh
+test: install
+	@cd docker/hevc-portainer; poetry run pytest
 
-trigger:
-	@docker container run --rm -it \
-	-v ./deploy-scripts:/scripts \
-	-w /scripts \
-  $$(gpg --decrypt env.asc | sed 's/^/ -e /; s/"//' | tr '\n' ' ' | tr -d '"') \
-  melvyndekort/portainer-api-client:latest \
-  ./trigger.sh
+build: test
+	@cd docker/hevc-portainer; poetry build
+
+full-build:
+	@docker image build -t hevc-portainer docker/hevc-portainer
