@@ -1,0 +1,41 @@
+name: "Codecov"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/codecov.yml'
+      - 'docker/hevc-portainer/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docker/hevc-portainer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Generate coverage report
+        run: |
+          pip install poetry
+          poetry install
+          poetry build
+          poetry run pytest --cov=./ --cov-report=xml
+      - name: Archive coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-coverage
+          path: coverage.xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
+          files: coverage.xml
+          flags: unittests
+          verbose: true
