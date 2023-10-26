@@ -11,5 +11,6 @@ def main(target):
   nextcloud_sync.main(target)
   processor.main(target)
 
+
 if __name__ == '__main__':
   main('/target')
