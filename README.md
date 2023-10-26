@@ -3,9 +3,9 @@
 HEVC encode all the MP4 files that are uploaded to an S3 bucket
 
 This repository contains 4 main functions:
-* Move files from Nextcloud to persistent storage
-* Process .mp4 files by AWS ECS Fargate (conversion to H265 format)
-* Re-process uploaded .mp4 files (when processing has failed for some reason)
+*   Move files from Nextcloud to persistent storage
+*   Process .mp4 files by AWS ECS Fargate (conversion to H265 format)
+*   Re-process uploaded .mp4 files (when processing has failed for some reason)
 
 ## Moving files from Nextcloud to persistent storage
 Files will be moved from source to target over the WebDAV protocol of Nextcloud using `rclone`.
@@ -42,4 +42,4 @@ make trigger
 ```
 
 ## TODO
-* Implement a skip-upload flag in `process` script
+*   Implement a skip-upload flag in `process` script
