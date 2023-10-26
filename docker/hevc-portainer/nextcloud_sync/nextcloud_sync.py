@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 def main(basedir):
-  logger.error('nextcloud-sync is not yet implemented!')
+    logger.error('nextcloud-sync is not yet implemented!')
 
 # # File operations using rclone
 # for USER in $(env | grep "^NC_PASS_" | cut -d= -f1 | sed 's/^NC_PASS_//'); do
