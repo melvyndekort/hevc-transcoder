@@ -9,7 +9,7 @@ ENV PATH="/venv/bin:$PATH"
 
 FROM base as build
 
-COPY pyproject.toml poetry.lock .
+COPY pyproject.toml poetry.lock ./
 RUN poetry export -f requirements.txt | pip install -r /dev/stdin
 
 COPY . .

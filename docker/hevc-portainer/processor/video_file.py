@@ -26,7 +26,7 @@ class VideoFile:
 
     def __str__(self):
         return self.source
-    
+
     def __eq__(self, other):
         if isinstance(other, VideoFile):
             return self.source == other.source
