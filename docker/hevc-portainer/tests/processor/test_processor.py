@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
 
 import os
-import tempfile
 import pathlib
 
 def test_delete_done_files(bucket, basedir):
-  with open(basedir + '/done.mp4', 'w') as fp:
+  with open(basedir + '/done.mp4', 'w'):
     pass
-  with open(basedir + '/done-hevc.mp4', 'w') as fp:
+  with open(basedir + '/done-hevc.mp4', 'w'):
     pass
-  with open(basedir + '/todo.mp4', 'w') as fp:
+  with open(basedir + '/todo.mp4', 'w'):
     pass
   os.mkdir(basedir + '/subdir')
-  with open(basedir + '/subdir/done.mp4', 'w') as fp:
+  with open(basedir + '/subdir/done.mp4', 'w'):
     pass
-  with open(basedir + '/subdir/done-hevc.mp4', 'w') as fp:
+  with open(basedir + '/subdir/done-hevc.mp4', 'w'):
     pass
-  with open(basedir + '/subdir/todo.mp4', 'w') as fp:
+  with open(basedir + '/subdir/todo.mp4', 'w'):
     pass
 
   from processor import processor

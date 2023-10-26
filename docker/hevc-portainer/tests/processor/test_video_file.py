@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 
-import os
-import pytest
-import tempfile
-
 from pathlib import Path
-from moto import mock_s3
 
 def test_creation(bucket):
   from processor.video_file import VideoFile
@@ -17,7 +12,7 @@ def test_creation(bucket):
 
 def test_upload(s3, basedir, bucket):
   filename = 'file.mp4'
-  with open(f'{basedir}/{filename}', 'w') as fp:
+  with open(f'{basedir}/{filename}', 'w'):
     pass
 
   from processor.video_file import VideoFile
@@ -33,7 +28,7 @@ def test_download_processed(s3, basedir, bucket):
   source = 'file.mp4'
   target = 'file-hevc.mp4'
 
-  with open(f'{basedir}/{source}', 'w') as fp:
+  with open(f'{basedir}/{source}', 'w'):
     pass
 
   s3.put_object(

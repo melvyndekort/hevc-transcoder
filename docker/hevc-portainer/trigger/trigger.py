@@ -80,4 +80,5 @@ def publish_events(bucket=_default_bucket):
       else:
         print(f'Successfully published {len(batch)} events')
 
+
 publish_events(_default_bucket)
