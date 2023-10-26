@@ -10,7 +10,7 @@ def test_creation(bucket):
     assert obj.key['todo'] == 'TODO/filename'
     assert obj.key['done'] == 'DONE/filename'
 
-def test_upload(s3, basedir, bucket):
+def test_upload(aws_credentials, s3, basedir, bucket):
     filename = 'file.mp4'
     with open(f'{basedir}/{filename}', 'w'):
         pass
@@ -24,7 +24,7 @@ def test_upload(s3, basedir, bucket):
     assert obj.uploaded
     assert s3.head_object(Bucket=bucket, Key=f'TODO/{filename}')
 
-def test_download_processed(s3, basedir, bucket):
+def test_download_processed(aws_credentials, s3, basedir, bucket):
     source = 'file.mp4'
     target = 'file-hevc.mp4'
 
@@ -44,7 +44,7 @@ def test_download_processed(s3, basedir, bucket):
     assert not Path(f'{basedir}/{source}').is_file()
     assert Path(f'{basedir}/{target}').is_file()
 
-def test_is_processing(s3, basedir, bucket):
+def test_is_processing(aws_credentials, s3, basedir, bucket):
     source = 'file.mp4'
 
     from processor.video_file import VideoFile
@@ -60,7 +60,7 @@ def test_is_processing(s3, basedir, bucket):
 
     assert obj.is_processing()
 
-def test_is_done(s3, basedir, bucket):
+def test_is_done(aws_credentials, s3, basedir, bucket):
     source = 'file.mp4'
     target = 'file-hevc.mp4'
 
