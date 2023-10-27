@@ -21,8 +21,6 @@ FROM python:3-alpine AS runtime
 
 LABEL org.opencontainers.image.source http://github.com/melvyndekort/hevc-encoder
 
-RUN apk add --update --no-cache rclone
-
 COPY --from=build /venv /venv
 COPY app.py /
 
