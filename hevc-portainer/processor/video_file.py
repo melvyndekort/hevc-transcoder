@@ -27,14 +27,6 @@ class VideoFile:
     def __str__(self):
         return self.source
 
-    def __eq__(self, other):
-        if isinstance(other, VideoFile):
-            return self.source == other.source
-        elif isinstance(other, str):
-            return self.source == other
-        else:
-            return NotImplemented
-
     def upload_for_processing(self):
         s3.upload_file(
             Filename=self.source,
