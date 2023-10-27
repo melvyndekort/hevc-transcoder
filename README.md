@@ -78,3 +78,7 @@ There is a **Makefile** with a few targets to make life easier:
 * `full-build` - build the **hevc-portainer** docker container
 * `plan` - run `terraform plan`
 * `apply` - run `terraform apply`
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
