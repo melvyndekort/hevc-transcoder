@@ -4,9 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Melvyn de Kort <melvyn@mdekort.nl>"]
 packages = [
-  { include = "nextcloud_sync" },
   { include = "processor" },
-  { include = "trigger" }
 ]
 
 [tool.poetry.dependencies]
