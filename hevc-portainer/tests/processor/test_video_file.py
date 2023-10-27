@@ -19,8 +19,6 @@ def create_test_bucket(s3, bucket):
     )
 
 def test_creation():
-    filename = 'file.mp4'
-
     from processor.video_file import VideoFile
     obj = VideoFile('/base', 'file.mp4')
 
