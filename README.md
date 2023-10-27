@@ -4,7 +4,7 @@
 
 ### Quality
 
-[![codecov](https://codecov.io/gh/melvyndekort/hevc-encoder/graph/badge.svg?token=nRCqhWXgk5)](https://codecov.io/gh/melvyndekort/hevc-encoder) [![Maintainability](https://api.codeclimate.com/v1/badges/9dee905ee45a47d97c9f/maintainability)](https://codeclimate.com/github/melvyndekort/hevc-encoder/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9dee905ee45a47d97c9f/maintainability)](https://codeclimate.com/github/melvyndekort/hevc-encoder/maintainability) [![codecov](https://codecov.io/gh/melvyndekort/hevc-encoder/graph/badge.svg?token=nRCqhWXgk5)](https://codecov.io/gh/melvyndekort/hevc-encoder)
 
 ### Workflows
 
