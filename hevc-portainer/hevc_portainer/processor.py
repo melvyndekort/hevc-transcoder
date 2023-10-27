@@ -6,7 +6,7 @@ import time
 import logging
 
 from pathlib import Path
-from processor.video_file import VideoFile
+from hevc_portainer.video_file import VideoFile
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
