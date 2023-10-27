@@ -19,7 +19,6 @@ bucket = os.environ['BUCKET']
 class VideoFile:
     uploaded = False
 
-
     def __init__(self, basedir, relpath):
         '''Initializer'''
         self.source = basedir + '/' + relpath
@@ -29,11 +28,9 @@ class VideoFile:
             'done': 'DONE/' + relpath.replace('.mp4', '-hevc.mp4')
         }
 
-
     def __str__(self):
         '''String representation of object'''
         return self.source
-
 
     def upload_for_processing(self):
         '''Upload the video file to S3 for processing'''
@@ -43,7 +40,6 @@ class VideoFile:
             Key=self.key['todo']
         )
         self.uploaded = True
-
 
     def download_processed(self):
         '''Download processed video file from S3'''
@@ -56,7 +52,6 @@ class VideoFile:
         logger.info(f'Deleting local file {self.source} from filesystem')
         file = Path(self.source)
         file.unlink()
-
 
     def object_exists(self, key):
         '''Check if object exists in S3'''
@@ -72,11 +67,9 @@ class VideoFile:
             else:
                 raise
 
-
     def is_processing(self):
         ''' Check if file is still being processed'''
         return self.object_exists(self.key['todo'])
-
 
     def is_done(self):
         '''Check if file has finished processing'''
