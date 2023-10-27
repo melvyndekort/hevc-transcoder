@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - '.github/workflows/docker-hevc-portainer.yml'
-      - 'docker/hevc-portainer/**'
+      - 'hevc-portainer/**'
   pull_request:
 
 jobs:
@@ -42,6 +42,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: docker/hevc-portainer
+          context: hevc-portainer
           push: true
           tags: ${{ env.DOCKER_TAG }}

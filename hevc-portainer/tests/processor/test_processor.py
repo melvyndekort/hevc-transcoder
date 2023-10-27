@@ -3,37 +3,37 @@
 import os
 import pathlib
 
-def test_delete_done_files(bucket, basedir):
-    with open(basedir + '/done.mp4', 'w'):
+def test_delete_done_files(aws_credentials, bucket, tmpdir):
+    with open(tmpdir + '/done.mp4', 'w'):
         pass
-    with open(basedir + '/done-hevc.mp4', 'w'):
+    with open(tmpdir + '/done-hevc.mp4', 'w'):
         pass
-    with open(basedir + '/todo.mp4', 'w'):
+    with open(tmpdir + '/todo.mp4', 'w'):
         pass
-    os.mkdir(basedir + '/subdir')
-    with open(basedir + '/subdir/done.mp4', 'w'):
+    os.mkdir(tmpdir + '/subdir')
+    with open(tmpdir + '/subdir/done.mp4', 'w'):
         pass
-    with open(basedir + '/subdir/done-hevc.mp4', 'w'):
+    with open(tmpdir + '/subdir/done-hevc.mp4', 'w'):
         pass
-    with open(basedir + '/subdir/todo.mp4', 'w'):
+    with open(tmpdir + '/subdir/todo.mp4', 'w'):
         pass
 
     from processor import processor
 
-    video_list = processor.list_videos(basedir)
+    video_list = processor.list_videos(str(tmpdir))
     video_list = [str(x) for x in video_list]
     assert len(video_list) == 2
-    assert basedir + '/todo.mp4' in video_list
-    assert basedir + '/subdir/todo.mp4' in video_list
+    assert tmpdir + '/todo.mp4' in video_list
+    assert tmpdir + '/subdir/todo.mp4' in video_list
 
-    path = pathlib.Path(basedir)
+    path = pathlib.Path(tmpdir)
     file_list = list(path.rglob("*.mp4"))
     file_list = [str(x) for x in file_list]
     assert len(file_list) == 4
-    assert basedir + '/done-hevc.mp4' in file_list
-    assert basedir + '/todo.mp4' in file_list
-    assert basedir + '/subdir/done-hevc.mp4' in file_list
-    assert basedir + '/subdir/todo.mp4' in file_list
+    assert tmpdir + '/done-hevc.mp4' in file_list
+    assert tmpdir + '/todo.mp4' in file_list
+    assert tmpdir + '/subdir/done-hevc.mp4' in file_list
+    assert tmpdir + '/subdir/todo.mp4' in file_list
 
 def test_main(monkeypatch):
     from processor import processor
@@ -61,7 +61,7 @@ def test_main(monkeypatch):
 
     mock_video = MockVideoFile()
 
-    def mock_list_videos(basedir):
+    def mock_list_videos(tmpdir):
         return [mock_video]
 
     monkeypatch.setattr(processor, "list_videos", mock_list_videos)

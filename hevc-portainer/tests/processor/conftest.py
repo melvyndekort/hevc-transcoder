@@ -18,18 +18,3 @@ def bucket():
     bucket = 'non-existing'
     os.environ['BUCKET'] = bucket
     return bucket
-
-@pytest.fixture
-def s3(bucket, aws_credentials):
-    with mock_s3():
-        s3 = boto3.client('s3')
-        s3.create_bucket(
-            Bucket=bucket,
-            CreateBucketConfiguration={'LocationConstraint': os.environ['AWS_DEFAULT_REGION']}
-        )
-        yield s3
-
-@pytest.fixture
-def basedir():
-    with tempfile.TemporaryDirectory() as basedir:
-        yield basedir

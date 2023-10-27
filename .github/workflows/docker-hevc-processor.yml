@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - '.github/workflows/docker-hevc-processor.yml'
-      - 'docker/hevc-processor/**'
+      - 'hevc-processor/**'
   pull_request:
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: docker/hevc-processor
+          context: hevc-processor
           push: true
           tags: ${{ env.DOCKER_TAG }}
           platforms: linux/amd64,linux/arm64
