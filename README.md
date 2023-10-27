@@ -1,13 +1,12 @@
-# hevc-encoder
-
 ### Badges
 
 #### Quality
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/486c1b59dad14aedbcac48b252759f83)](https://app.codacy.com/gh/melvyndekort/hevc-encoder/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)[![codecov](https://codecov.io/gh/melvyndekort/hevc-encoder/graph/badge.svg?token=nRCqhWXgk5)](https://codecov.io/gh/melvyndekort/hevc-encoder)[![Maintainability](https://api.codeclimate.com/v1/badges/9dee905ee45a47d97c9f/maintainability)](https://codeclimate.com/github/melvyndekort/hevc-encoder/maintainability)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/486c1b59dad14aedbcac48b252759f83)](https://app.codacy.com/gh/melvyndekort/hevc-encoder/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![codecov](https://codecov.io/gh/melvyndekort/hevc-encoder/graph/badge.svg?token=nRCqhWXgk5)](https://codecov.io/gh/melvyndekort/hevc-encoder) [![Maintainability](https://api.codeclimate.com/v1/badges/9dee905ee45a47d97c9f/maintainability)](https://codeclimate.com/github/melvyndekort/hevc-encoder/maintainability)
 
 #### Workflows
-![terraform](https://github.com/melvyndekort/hevc-encoder/actions/workflows/terraform.yml/badge.svg)![docker hevc-portainer](https://github.com/melvyndekort/hevc-encoder/actions/workflows/docker-hevc-portainer.yml/badge.svg)![docker hevc-processor](https://github.com/melvyndekort/hevc-encoder/actions/workflows/docker-hevc-processor.yml/badge.svg)
+![terraform](https://github.com/melvyndekort/hevc-encoder/actions/workflows/terraform.yml/badge.svg) ![docker hevc-portainer](https://github.com/melvyndekort/hevc-encoder/actions/workflows/docker-hevc-portainer.yml/badge.svg) ![docker hevc-processor](https://github.com/melvyndekort/hevc-encoder/actions/workflows/docker-hevc-processor.yml/badge.svg)
 
+# hevc-encoder
 HEVC encode all the MP4 files that are uploaded to an S3 bucket
 
 This repository contains 4 main functions:
