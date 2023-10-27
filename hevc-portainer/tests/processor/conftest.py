@@ -1,9 +1,5 @@
 import os
 import pytest
-import boto3
-import tempfile
-
-from moto import mock_s3
 
 @pytest.fixture
 def aws_credentials():
