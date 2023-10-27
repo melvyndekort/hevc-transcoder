@@ -79,6 +79,12 @@ There is a **Makefile** with a few targets to make life easier:
 * `plan` - run `terraform plan`
 * `apply` - run `terraform apply`
 
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
