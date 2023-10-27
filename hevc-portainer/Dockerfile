@@ -1,7 +1,8 @@
 FROM python:3-slim AS base
 
 RUN pip install --upgrade pip
-RUN pip install poetry
+RUN pip install "poetry>=1.6,<1.7"
+
 
 RUN python -m venv /venv
 ENV PATH="/venv/bin:$PATH"
