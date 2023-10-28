@@ -4,8 +4,6 @@ import pytest
 
 from moto import mock_s3
 
-from hevc_processor import processor
-
 @pytest.fixture
 def s3(aws_credentials):
     with mock_s3():
@@ -23,7 +21,9 @@ def create_test_bucket(s3, bucket):
         Body=''
     )
 
-def test_flow_processed(monkeypatch):
+def test_flow_processed(aws_credentials, monkeypatch):
+    from hevc_processor import processor
+
     count_is_processed = 0
     count_delete = 0
 
@@ -48,6 +48,8 @@ def test_flow_processed(monkeypatch):
 
 @mock_s3
 def test_flow_success(monkeypatch, aws_credentials, s3, bucket, tmpdir):
+    from hevc_processor import processor
+
     count_is_processed = 0
     count_delete = 0
 
