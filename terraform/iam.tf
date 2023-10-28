@@ -133,11 +133,12 @@ resource "aws_iam_user_policy" "portainer_hevc" {
 data "aws_iam_policy_document" "lmbackup" {
   statement {
     actions = [
-      "s3:GetObject*",
-      "s3:HeadObject*",
-      "s3:PutObject*",
+      "s3:Get*",
+      "s3:List*",
+      "s3:Put*",
     ]
     resources = [
+      aws_s3_bucket.hevc.arn,
       "${aws_s3_bucket.hevc.arn}/*",
     ]
   }
