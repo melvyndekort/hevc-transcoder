@@ -12,7 +12,7 @@ def main(target):
     '''Main method which calls the modules'''
     logging.basicConfig(level=logging.INFO)
 
-    processor.main(source, bucket)
+    processor.main('/tmp', source, bucket)
 
 
 if __name__ == '__main__':
