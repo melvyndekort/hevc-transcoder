@@ -97,6 +97,8 @@ def delete_source(source, bucket):
 
 def main(workdir, source, bucket):
     '''Main processing coordinator'''
+    logger.info(f'Start processing {source}')
+
     target = 'DONE/' + source.removeprefix('TODO/')
 
     if is_processed(target, bucket):
@@ -106,3 +108,5 @@ def main(workdir, source, bucket):
         transcode_file(workdir)
         upload_target(workdir, target, bucket)
         delete_source(source, bucket)
+
+    logger.info(f'Finished processing {source}')
