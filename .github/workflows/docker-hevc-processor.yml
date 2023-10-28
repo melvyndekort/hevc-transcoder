@@ -49,4 +49,6 @@ jobs:
           context: hevc-processor
           push: true
           tags: ${{ env.DOCKER_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
