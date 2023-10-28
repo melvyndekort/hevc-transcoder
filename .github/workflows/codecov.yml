@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/codecov.yml'
       - 'hevc-portainer/**'
+      - 'hevc-processor/**'
 
 jobs:
   build:
