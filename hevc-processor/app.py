@@ -3,12 +3,13 @@
 Script that calls / starts the underlying modules
 """
 
+import os
 import logging
 
 from hevc_processor import processor
 
 
-def main(target):
+def main(source, bucket):
     '''Main method which calls the modules'''
     logging.basicConfig(level=logging.INFO)
 
@@ -16,7 +17,7 @@ def main(target):
 
 
 if __name__ == '__main__':
-    bucket = os.environ['S3_BUCKET_NAME']
-    source = os.environ['S3_OBJECT_KEY']
+    BUCKET = os.environ['S3_BUCKET_NAME']
+    SOURCE = os.environ['S3_OBJECT_KEY']
 
-    main(source, bucket)
+    main(SOURCE, BUCKET)

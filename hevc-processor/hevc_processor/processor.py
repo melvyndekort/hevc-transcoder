@@ -29,6 +29,7 @@ def is_processed(key, bucket):
         else:
             raise
 
+
 def download_source(workdir, source, bucket):
     '''Download video file from S3'''
     logger.info(f'Downloading {source} from S3')
@@ -38,6 +39,7 @@ def download_source(workdir, source, bucket):
         Filename=f'{workdir}/input.mp4'
     )
 
+
 def upload_target(workdir, target, bucket):
     '''Upload video file to S3'''
     logger.info(f'Uploading {target} to S3')
@@ -46,6 +48,7 @@ def upload_target(workdir, target, bucket):
         Bucket=bucket,
         Key=target
     )
+
 
 def transcode_file(workdir):
     '''Transcode H.264 file to H.265 format'''
@@ -76,7 +79,7 @@ def transcode_file(workdir):
     @ffmpeg.on('progress')
     def on_progress(progress: Progress):
         logger.info(progress)
-    
+
     @ffmpeg.on('completed')
     def on_completed():
         logger.info('completed')
@@ -87,6 +90,7 @@ def transcode_file(workdir):
 
     ffmpeg.execute()
 
+
 def delete_source(source, bucket):
     '''Delete the original H.264 file from S3'''
     logger.info(f'Deleting {source} from S3')
@@ -94,6 +98,7 @@ def delete_source(source, bucket):
         Bucket=bucket,
         Key=source
     )
+
 
 def main(workdir, source, bucket):
     '''Main processing coordinator'''
