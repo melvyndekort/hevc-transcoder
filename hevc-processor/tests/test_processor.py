@@ -3,6 +3,7 @@ import boto3
 import pytest
 
 from moto import mock_s3
+from botocore.exceptions import ClientError
 
 @pytest.fixture
 def s3(aws_credentials):
@@ -15,43 +16,33 @@ def create_test_bucket(s3, bucket):
         CreateBucketConfiguration={'LocationConstraint': os.environ['AWS_DEFAULT_REGION']}
     )
 
+def create_object(s3, prefix, bucket):
     s3.put_object(
         Bucket=bucket,
-        Key='TODO/video.mp4',
+        Key=f'{prefix}/video.mp4',
         Body=''
     )
 
-def test_flow_processed(aws_credentials, monkeypatch):
+def test_flow_processed(monkeypatch, aws_credentials, s3, bucket):
     from hevc_processor import processor
 
-    count_is_processed = 0
-    count_delete = 0
+    called = 0
+    def mock_delete_source(source, bucket):
+        nonlocal called
+        called += 1
 
-    def mock_is_processed(key, bucket):
-        nonlocal count_is_processed
-        count_is_processed += 1
-        return True
-
-    def mock_delete_source(key, bucket):
-        nonlocal count_delete
-        count_delete += 1
-        assert key == 'key'
-        assert bucket == 'bucket'
-
-    monkeypatch.setattr(processor, 'is_processed', mock_is_processed)
     monkeypatch.setattr(processor, 'delete_source', mock_delete_source)
 
-    processor.main('.', 'key', 'bucket')
+    create_test_bucket(s3, bucket)
+    create_object(s3, 'DONE', bucket)
 
-    assert count_is_processed == 1
-    assert count_delete == 1
+    processor.main('', 'TODO/video.mp4', bucket)
+
+    assert called == 1
 
 @mock_s3
 def test_flow_success(monkeypatch, aws_credentials, s3, bucket, tmpdir):
     from hevc_processor import processor
-
-    count_is_processed = 0
-    count_delete = 0
 
     def mock_transcode_file(workdir):
         os.rename(f'{tmpdir}/input.mp4', f'{tmpdir}/output.mp4')
@@ -60,6 +51,7 @@ def test_flow_success(monkeypatch, aws_credentials, s3, bucket, tmpdir):
     monkeypatch.setattr(processor, 'transcode_file', mock_transcode_file)
 
     create_test_bucket(s3, bucket)
+    create_object(s3, 'TODO', bucket)
 
     processor.main(str(tmpdir), 'TODO/video.mp4', bucket)
 
@@ -67,3 +59,10 @@ def test_flow_success(monkeypatch, aws_credentials, s3, bucket, tmpdir):
         Bucket=bucket,
         Key='DONE/video.mp4'
     )
+
+    with pytest.raises(ClientError) as e:
+        s3.head_object(
+            Bucket=bucket,
+            Key='TODO/video.mp4'
+        )
+    assert e.value.response['Error']['Code'] == '404'
