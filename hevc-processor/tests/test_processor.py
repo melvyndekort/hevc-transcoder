@@ -16,10 +16,10 @@ def create_test_bucket(s3, bucket):
         CreateBucketConfiguration={'LocationConstraint': os.environ['AWS_DEFAULT_REGION']}
     )
 
-def create_object(s3, prefix, bucket):
+def create_object(s3, key, bucket):
     s3.put_object(
         Bucket=bucket,
-        Key=f'{prefix}/video.mp4',
+        Key=key,
         Body=''
     )
 
@@ -34,7 +34,7 @@ def test_flow_processed(monkeypatch, aws_credentials, s3, bucket):
     monkeypatch.setattr(processor, 'delete_source', mock_delete_source)
 
     create_test_bucket(s3, bucket)
-    create_object(s3, 'DONE', bucket)
+    create_object(s3, 'DONE/video-hevc.mp4', bucket)
 
     processor.main('', 'TODO/video.mp4', bucket)
 
@@ -51,13 +51,13 @@ def test_flow_success(monkeypatch, aws_credentials, s3, bucket, tmpdir):
     monkeypatch.setattr(processor, 'transcode_file', mock_transcode_file)
 
     create_test_bucket(s3, bucket)
-    create_object(s3, 'TODO', bucket)
+    create_object(s3, 'TODO/video.mp4', bucket)
 
     processor.main(str(tmpdir), 'TODO/video.mp4', bucket)
 
     assert s3.head_object(
         Bucket=bucket,
-        Key='DONE/video.mp4'
+        Key='DONE/video-hevc.mp4'
     )
 
     with pytest.raises(ClientError) as e:
