@@ -49,12 +49,14 @@ def list_videos(basedir):
 def process_videos(videos):
     '''Loop through videos and process them'''
     for video in videos[:]:
-        logger.info(f'File {video} is still in the loop')
-        if not video.uploaded:
-            video.upload_for_processing()
-        elif video.is_done():
+        if video.is_done():
             video.download_processed()
             videos.remove(video)
+        elif not video.uploaded:
+            video.upload_for_processing()
+        else:
+            logger.info(f'File {video} is (still) processing')
+
 
 
 def main(basedir):
