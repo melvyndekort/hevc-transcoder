@@ -58,7 +58,6 @@ def process_videos(videos):
             logger.info(f'File {video} is (still) processing')
 
 
-
 def main(basedir):
     '''Main loop that keeps running until all videos are processed'''
     logger.info('Start processing')
