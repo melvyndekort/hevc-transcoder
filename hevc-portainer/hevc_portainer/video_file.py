@@ -34,6 +34,7 @@ class VideoFile:
 
     def upload_for_processing(self):
         '''Upload the video file to S3 for processing'''
+        logger.info(f'Uploading local file {self.source} to S3')
         s3.upload_file(
             Filename=self.source,
             Bucket=bucket,
