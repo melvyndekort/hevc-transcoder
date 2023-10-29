@@ -19,13 +19,15 @@ bucket = os.environ['BUCKET']
 class VideoFile:
     uploaded = False
 
-    def __init__(self, basedir, relpath):
+    def __init__(self, basedir, source_relpath):
         '''Initializer'''
-        self.source = basedir + '/' + relpath
-        self.target = basedir + '/' + relpath.removesuffix('.mp4') + '-hevc.mp4'
+        target_relpath = source_relpath.removesuffix('.mp4') + '-hevc.mp4'
+
+        self.source = basedir + '/' + source_relpath
+        self.target = basedir + '/' + target_relpath
         self.key = {
-            'todo': 'TODO/' + relpath,
-            'done': 'DONE/' + relpath.removesuffix('.mp4') + '-hevc.mp4'
+            'todo': 'TODO/' + source_relpath,
+            'done': 'DONE/' + target_relpath
         }
 
     def __str__(self):
