@@ -67,6 +67,8 @@ def main(basedir):
 
     while len(videos) > 0:
         process_videos(videos)
-        time.sleep(SLEEP)
+
+        if len(videos) > 0:
+            time.sleep(SLEEP)
 
     logger.info('Finished processing')
