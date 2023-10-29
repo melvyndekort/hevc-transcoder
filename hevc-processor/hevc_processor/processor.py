@@ -104,7 +104,7 @@ def main(workdir, source, bucket):
     '''Main processing coordinator'''
     logger.info(f'Start processing {source}')
 
-    target = 'DONE/' + source.removeprefix('TODO/')
+    target = 'DONE/' + source.removeprefix('TODO/').removesuffix('.mp4') + '-hevc.mp4'
 
     if is_processed(target, bucket):
         delete_source(source, bucket)
