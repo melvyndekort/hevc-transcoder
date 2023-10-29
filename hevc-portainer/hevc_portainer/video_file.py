@@ -22,10 +22,10 @@ class VideoFile:
     def __init__(self, basedir, relpath):
         '''Initializer'''
         self.source = basedir + '/' + relpath
-        self.target = basedir + '/' + relpath.replace('.mp4', '-hevc.mp4')
+        self.target = basedir + '/' + relpath.removesuffix('.mp4') + '-hevc.mp4'
         self.key = {
             'todo': 'TODO/' + relpath,
-            'done': 'DONE/' + relpath.replace('.mp4', '-hevc.mp4')
+            'done': 'DONE/' + relpath.removesuffix('.mp4') + '-hevc.mp4'
         }
 
     def __str__(self):
