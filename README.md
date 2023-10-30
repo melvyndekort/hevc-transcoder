@@ -30,12 +30,12 @@ Since recoding is a slow and resource hungry, we'd like to have the power of sca
 The entire process looks like this:
 
 1. hevc-portainer searches the filesystem and uploads video files to S3 (`TODO/` prefix)
-2. S3 sends an upload event to EventBridge
-3. EventBridge triggers a new ECS task (hevc-processor)
-4. hevc-processor downloads the file from S3
-5. hevc-processor transcodes the file to H.265
-6. hevc-processor uploads the file to S3 (`DONE/` prefix)
-7. hevc-portainer downloads the file from S3
+1. S3 sends an upload event to EventBridge
+1. EventBridge triggers a new ECS task (hevc-processor)
+1. hevc-processor downloads the file from S3
+1. hevc-processor transcodes the file to H.265
+1. hevc-processor uploads the file to S3 (`DONE/` prefix)
+1. hevc-portainer downloads the file from S3
 
 ![Flow diagram](docs/flow.png "Flow")
 
