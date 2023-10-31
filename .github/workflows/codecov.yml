@@ -22,14 +22,12 @@ jobs:
         run: |
           pip install poetry
           poetry install
-          poetry build
           poetry run pytest --cov=./ --cov-report=xml
       - name: Generate hevc-processor coverage report
         working-directory: hevc-processor
         run: |
           pip install poetry
           poetry install
-          poetry build
           poetry run pytest --cov=./ --cov-report=xml
       - name: Archive coverage
         uses: actions/upload-artifact@v3
