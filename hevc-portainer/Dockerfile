@@ -24,6 +24,6 @@ LABEL org.opencontainers.image.source http://github.com/melvyndekort/hevc-encode
 COPY --from=build /venv /venv
 COPY app.py /
 
-ENV PATH="/venv/bin:/hevc:$PATH"
+ENV PATH="/venv/bin:$PATH"
 
 CMD ["python3", "/app.py"]
