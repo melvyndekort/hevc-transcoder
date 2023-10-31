@@ -10,7 +10,15 @@ updates:
     reviewers:
       - "melvyndekort"
   - package-ecosystem: "docker"
-    directory: "/docker"
+    directory: "/hevc-portainer"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "melvyndekort"
+    reviewers:
+      - "melvyndekort"
+  - package-ecosystem: "docker"
+    directory: "/hevc-processor"
     schedule:
       interval: "weekly"
     assignees:
@@ -18,7 +26,15 @@ updates:
     reviewers:
       - "melvyndekort"
   - package-ecosystem: "pip"
-    directory: "/docker"
+    directory: "/hevc-portainer"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "melvyndekort"
+    reviewers:
+      - "melvyndekort"
+  - package-ecosystem: "pip"
+    directory: "/hevc-processor"
     schedule:
       interval: "weekly"
     assignees:
