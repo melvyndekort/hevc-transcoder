@@ -29,13 +29,6 @@ jobs:
           pip install poetry
           poetry install
           poetry run pytest --cov=./ --cov-report=xml
-      - name: Archive coverage
-        uses: actions/upload-artifact@v3
-        with:
-          name: python-coverage
-          path: |
-            hevc-portainer/coverage.xml
-            hevc-processor/coverage.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
