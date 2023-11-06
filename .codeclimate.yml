@@ -1,11 +1,23 @@
 plugins:
-  pylint:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        python:
+          python_version: 3
+  git-legal:
     enabled: true
   markdownlint:
     enabled: true
-  tflint:
-    enabled: true
   pep8:
     enabled: true
-  git-legal:
+  fixme:
     enabled: true
+  radon:
+    enabled: true
+  sonar-python:
+    enabled: true
+    config:
+      tests_patterns:
+        - hevc-portainer/tests/**
+        - hevc-processor/tests/**
