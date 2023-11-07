@@ -2,24 +2,19 @@
 .DEFAULT_GOAL := build
 
 clean:
-	@cd hevc-portainer; rm -rf .pytest_cache dist */__pycache__ */*/__pycache__
-	@cd hevc-processor; rm -rf .pytest_cache dist */__pycache__ */*/__pycache__
+	@rm -rf .pytest_cache dist */__pycache__ */*/__pycache__
 
 install:
-	@cd hevc-portainer; poetry install
-	@cd hevc-processor; poetry install
+	@poetry install
 
 test: install
-	@cd hevc-portainer; poetry run pytest
-	@cd hevc-processor; poetry run pytest
+	@poetry run pytest
 
 build: test
-	@cd hevc-portainer; poetry build
-	@cd hevc-processor; poetry build
+	@poetry build
 
 full-build:
-	@docker image build -t hevc-portainer hevc-portainer
-	@docker image build -t hevc-processor hevc-processor
+	@docker image build -t hevc-processor .
 
 init:
 	@terraform -chdir=terraform init

@@ -1,18 +1,18 @@
-# HEVC-ENCODER
+# HEVC-TRANSCODER
 
 ## Badges
 
 ### Quality
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/9dee905ee45a47d97c9f/maintainability)](https://codeclimate.com/github/melvyndekort/hevc-encoder/maintainability) [![codecov](https://codecov.io/gh/melvyndekort/hevc-encoder/graph/badge.svg?token=nRCqhWXgk5)](https://codecov.io/gh/melvyndekort/hevc-encoder)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a7a4fa683d0b28609461/maintainability)](https://codeclimate.com/github/melvyndekort/hevc-transcoder/maintainability) [![codecov](https://codecov.io/gh/melvyndekort/hevc-transcoder/graph/badge.svg?token=nRCqhWXgk5)](https://codecov.io/gh/melvyndekort/hevc-transcoder)
 
 ### Workflows
 
-![docker hevc-portainer](https://github.com/melvyndekort/hevc-encoder/actions/workflows/docker-hevc-portainer.yml/badge.svg) ![docker hevc-processor](https://github.com/melvyndekort/hevc-encoder/actions/workflows/docker-hevc-processor.yml/badge.svg) ![terraform](https://github.com/melvyndekort/hevc-encoder/actions/workflows/terraform.yml/badge.svg)
+![Pipeline](https://github.com/melvyndekort/hevc-transcoder/actions/workflows/pipeline.yml/badge.svg) ![terraform](https://github.com/melvyndekort/hevc-transcoder/actions/workflows/terraform.yml/badge.svg)
 
 ## Purpose
 
-Re-encode all H.264 encoded video files to H.265.
+Transcode all H.264 encoded video files to H.265.
 
 ## Technology
 
@@ -29,38 +29,32 @@ Since recoding is a slow and resource hungry, we'd like to have the power of sca
 
 The entire process looks like this:
 
-1. hevc-portainer searches the filesystem and uploads video files to S3 (`TODO/` prefix)
+1. `processor.py` searches the filesystem and uploads video files to S3 (`TODO/` prefix)
 1. S3 sends an upload event to EventBridge
 1. EventBridge triggers a new ECS task (hevc-processor)
-1. hevc-processor downloads the file from S3
-1. hevc-processor transcodes the file to H.265
-1. hevc-processor uploads the file to S3 (`DONE/` prefix)
-1. hevc-portainer downloads the file from S3
+1. `transcoder.py` downloads the file from S3
+1. `transcoder.py` transcodes the file to H.265
+1. `transcoder.py` uploads the file to S3 (`DONE/` prefix)
+1. `processor.py` downloads the file from S3
 
 ![Flow diagram](docs/flow.png "Flow")
 
 ## Build & deploy
 
-GitHub actions workflows will build the Docker containers and configure the AWS infrastructure with Terraform.
-The `hevc-portainer` container gets deployed by [dockersetup](https://github.com/melvyndekort/dockersetup).
+A GitHub actions workflow will build the Docker container and configure the AWS infrastructure with Terraform.
+The local Docker container is started by [scheduler](https://github.com/melvyndekort/scheduler).
 
 ## Development
 
-There are basically 3 main folders within this repository:
+There are basically 2 important folders within this repository:
 
-* hevc-portainer
-* hevc-processor
+* hevc_transcoder
 * terraform
 
-### hevc-portainer
+### hevc_transcoder
 
-This folder contains a Python project which does the local processing.
+This folder contains a Python project with the 2 main modules `processor.py` and `transcoder.py`.
 The project uses **poetry** for dependency management and **pytest** for unit testing.
-There is a **Dockerfile** to build the deployable container.
-
-### hevc-processor
-
-This folder contains a simple **bash** script that coordinates S3 and ffmpeg.
 There is a **Dockerfile** to build the deployable container.
 
 ### terraform
@@ -75,7 +69,7 @@ There is a **Makefile** with a few targets to make life easier:
 * `install` - download and install the Python dependencies
 * `test` - run unit tests
 * `build` - create a build (Python wheel)
-* `full-build` - build the **hevc-portainer** docker container
+* `full-build` - build the docker container
 * `plan` - run `terraform plan`
 * `apply` - run `terraform apply`
 

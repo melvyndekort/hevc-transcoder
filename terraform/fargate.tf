@@ -4,13 +4,13 @@ locals {
     options = {
       awslogs-group         = "ecs-default",
       awslogs-region        = "eu-west-1",
-      awslogs-stream-prefix = "hevc-encoder"
+      awslogs-stream-prefix = "hevc-transcoder"
     }
   } : null
 }
 
-resource "aws_ecs_task_definition" "hevc_encoder" {
-  family                   = "hevc-encoder"
+resource "aws_ecs_task_definition" "hevc_transcoder" {
+  family                   = "hevc-transcoder"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = 4096
@@ -20,8 +20,9 @@ resource "aws_ecs_task_definition" "hevc_encoder" {
 
   container_definitions = jsonencode([
     {
-      name             = "hevc-encoder"
-      image            = "registry.ipv6.docker.com/melvyndekort/hevc-processor:latest"
+      name             = "hevc-transcoder"
+      image            = "registry.ipv6.docker.com/melvyndekort/hevc-transcoder:latest"
+      command          = ["python", "-m", "hevc_transcoder.transcoder"],
       essential        = true
       logConfiguration = local.log_configuration
     }
@@ -32,9 +33,9 @@ resource "aws_ecs_task_definition" "hevc_encoder" {
   }
 }
 
-resource "aws_security_group" "hevc_encoder" {
-  name        = "hevc-encoder"
-  description = "hevc-encoder"
+resource "aws_security_group" "hevc_transcoder" {
+  name        = "hevc-transcoder"
+  description = "hevc-transcoder"
   vpc_id      = data.terraform_remote_state.cloudsetup.outputs.vpc_id
 
   egress {
@@ -46,6 +47,6 @@ resource "aws_security_group" "hevc_encoder" {
   }
 
   tags = {
-    Name = "hevc-encoder"
+    Name = "hevc-transcoder"
   }
 }

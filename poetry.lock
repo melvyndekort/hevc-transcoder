@@ -1,13 +1,13 @@
 [[package]]
 name = "boto3"
-version = "1.28.74"
+version = "1.28.79"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = ">= 3.7"
 
 [package.dependencies]
-botocore = ">=1.31.74,<1.32.0"
+botocore = ">=1.31.79,<1.32.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.7.0,<0.8.0"
 
@@ -16,7 +16,7 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.31.74"
+version = "1.31.79"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -54,7 +54,7 @@ pycparser = "*"
 
 [[package]]
 name = "charset-normalizer"
-version = "3.3.1"
+version = "3.3.2"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
 category = "dev"
 optional = false
@@ -235,6 +235,20 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
+name = "pyee"
+version = "11.0.1"
+description = "A rough port of Node.js's EventEmitter to Python with a few tricks of its own"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+typing-extensions = "*"
+
+[package.extras]
+dev = ["flake8", "flake8-black", "pytest", "black", "isort", "jupyter-console", "mkdocs", "mkdocs-include-markdown-plugin", "mkdocstrings", "toml", "tox", "trio", "twine", "twisted", "validate-pyproject", "trio", "trio-typing", "pytest-asyncio", "pytest-trio"]
+
+[[package]]
 name = "pytest"
 version = "7.4.3"
 description = "pytest: simple powerful testing with Python"
@@ -280,6 +294,18 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 six = ">=1.5"
 
 [[package]]
+name = "python-ffmpeg"
+version = "2.0.4"
+description = "A python binding for FFmpeg which provides sync and async APIs"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+pyee = "*"
+typing-extensions = "*"
+
+[[package]]
 name = "pyyaml"
 version = "6.0.1"
 description = "YAML parser and emitter for Python"
@@ -307,20 +333,19 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "responses"
-version = "0.23.3"
+version = "0.24.0"
 description = "A utility library for mocking out the `requests` Python library."
 category = "dev"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 
 [package.dependencies]
 pyyaml = "*"
 requests = ">=2.30.0,<3.0"
-types-PyYAML = "*"
 urllib3 = ">=1.25.10,<3.0"
 
 [package.extras]
-tests = ["pytest (>=7.0.0)", "coverage (>=6.0.0)", "pytest-cov", "pytest-asyncio", "pytest-httpserver", "flake8", "types-requests", "mypy", "tomli-w", "tomli"]
+tests = ["pytest (>=7.0.0)", "coverage (>=6.0.0)", "pytest-cov", "pytest-asyncio", "pytest-httpserver", "flake8", "types-pyyaml", "types-requests", "mypy", "tomli-w", "tomli"]
 
 [[package]]
 name = "s3transfer"
@@ -353,12 +378,12 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
-name = "types-pyyaml"
-version = "6.0.12.12"
-description = "Typing stubs for PyYAML"
-category = "dev"
+name = "typing-extensions"
+version = "4.8.0"
+description = "Backported and Experimental Type Hints for Python 3.8+"
+category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 
 [[package]]
 name = "urllib3"
@@ -412,7 +437,7 @@ python-versions = ">=3.4"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "2a1a1f15d4ddedf7be6370b0ea3db68bbdba5855f9306d5735bd7ba17ab8fa69"
+content-hash = "9106a98ee2cdbc524af50bad0321d943196178f2e7d001a766f2ecf90ba89c77"
 
 [metadata.files]
 boto3 = []
@@ -433,16 +458,18 @@ moto = []
 packaging = []
 pluggy = []
 pycparser = []
+pyee = []
 pytest = []
 pytest-cov = []
 python-dateutil = []
+python-ffmpeg = []
 pyyaml = []
 requests = []
 responses = []
 s3transfer = []
 six = []
 tomli = []
-types-pyyaml = []
+typing-extensions = []
 urllib3 = []
 werkzeug = []
 xmltodict = []

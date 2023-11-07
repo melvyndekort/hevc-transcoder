@@ -19,7 +19,7 @@ def create_test_bucket(s3, bucket):
     )
 
 def test_creation():
-    from hevc_portainer.video_file import VideoFile
+    from hevc_transcoder.video_file import VideoFile
     obj = VideoFile('/base', 'file.mp4')
 
     assert str(obj) == '/base/file.mp4'
@@ -35,7 +35,7 @@ def test_upload(aws_credentials, tmpdir, bucket, s3):
 
     create_test_bucket(s3, bucket)
 
-    from hevc_portainer.video_file import VideoFile
+    from hevc_transcoder.video_file import VideoFile
     obj = VideoFile(basedir, filename)
     assert not obj.uploaded
 
@@ -61,7 +61,7 @@ def test_download_processed(aws_credentials, s3, tmpdir, bucket):
         Body=''
     )
 
-    from hevc_portainer.video_file import VideoFile
+    from hevc_transcoder.video_file import VideoFile
     obj = VideoFile(basedir, source)
     obj.download_processed()
 
@@ -75,7 +75,7 @@ def test_is_processing(aws_credentials, s3, tmpdir, bucket):
 
     create_test_bucket(s3, bucket)
 
-    from hevc_portainer.video_file import VideoFile
+    from hevc_transcoder.video_file import VideoFile
     obj = VideoFile(basedir, source)
 
     assert not obj.is_processing()
@@ -96,7 +96,7 @@ def test_is_done(aws_credentials, s3, tmpdir, bucket):
 
     create_test_bucket(s3, bucket)
 
-    from hevc_portainer.video_file import VideoFile
+    from hevc_transcoder.video_file import VideoFile
     obj = VideoFile(basedir, source)
 
     assert not obj.is_done()

@@ -24,36 +24,36 @@ def create_object(s3, key, bucket):
     )
 
 def test_flow_processed(monkeypatch, aws_credentials, s3, bucket):
-    from hevc_processor import processor
+    from hevc_transcoder import transcoder
 
     called = 0
     def mock_delete_source(source, bucket):
         nonlocal called
         called += 1
 
-    monkeypatch.setattr(processor, 'delete_source', mock_delete_source)
+    monkeypatch.setattr(transcoder, 'delete_source', mock_delete_source)
 
     create_test_bucket(s3, bucket)
     create_object(s3, 'DONE/video-hevc.mp4', bucket)
 
-    processor.main('', 'TODO/video.mp4', bucket)
+    transcoder.main('', 'TODO/video.mp4', bucket)
 
     assert called == 1
 
 @mock_s3
 def test_flow_success(monkeypatch, aws_credentials, s3, bucket, tmpdir):
-    from hevc_processor import processor
+    from hevc_transcoder import transcoder
 
     def mock_transcode_file(workdir):
         os.rename(f'{tmpdir}/input.mp4', f'{tmpdir}/output.mp4')
         pass
 
-    monkeypatch.setattr(processor, 'transcode_file', mock_transcode_file)
+    monkeypatch.setattr(transcoder, 'transcode_file', mock_transcode_file)
 
     create_test_bucket(s3, bucket)
     create_object(s3, 'TODO/video.mp4', bucket)
 
-    processor.main(str(tmpdir), 'TODO/video.mp4', bucket)
+    transcoder.main(str(tmpdir), 'TODO/video.mp4', bucket)
 
     assert s3.head_object(
         Bucket=bucket,

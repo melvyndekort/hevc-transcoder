@@ -6,10 +6,10 @@ import time
 import logging
 
 from pathlib import Path
-from hevc_portainer.video_file import VideoFile
+from hevc_transcoder.video_file import VideoFile
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 SLEEP = 60
 
@@ -71,3 +71,7 @@ def main(basedir):
             time.sleep(SLEEP)
 
     logger.info('Finished processing')
+
+
+if __name__ == '__main__':
+    main('/target')

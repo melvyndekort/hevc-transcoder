@@ -3,7 +3,7 @@ terraform {
     organization = "melvyndekort"
 
     workspaces {
-      name = "hevc-encoder"
+      name = "hevc-transcoder"
     }
   }
 

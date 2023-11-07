@@ -20,19 +20,19 @@ resource "aws_sqs_queue" "hevc_dlq" {
   name = "hevc-dlq"
 }
 
-resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
-  target_id = "fargate-hevc-encoder"
+resource "aws_cloudwatch_event_target" "fargate_hevc_transcoder" {
+  target_id = "fargate-hevc-transcoder"
   rule      = aws_cloudwatch_event_rule.s3_upload_mp4.name
   arn       = data.terraform_remote_state.cloudsetup.outputs.ecs_cluster_arn
   role_arn  = aws_iam_role.eventbridge_fargate.arn
 
   ecs_target {
     task_count          = 1
-    task_definition_arn = aws_ecs_task_definition.hevc_encoder.arn
+    task_definition_arn = aws_ecs_task_definition.hevc_transcoder.arn
 
     network_configuration {
       subnets          = data.terraform_remote_state.cloudsetup.outputs.public_subnets
-      security_groups  = [aws_security_group.hevc_encoder.id]
+      security_groups  = [aws_security_group.hevc_transcoder.id]
       assign_public_ip = var.enable_logging
     }
   }
@@ -56,7 +56,7 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_encoder" {
 {
   "containerOverrides": [
     {
-      "name": "hevc-encoder",
+      "name": "hevc-transcoder",
       "environment": [
         { "name": "S3_BUCKET_NAME", "value": "<bucketname>" },
         { "name": "S3_OBJECT_KEY", "value": "<objectkey>" }

@@ -9,8 +9,8 @@ import boto3
 from botocore.exceptions import ClientError
 from ffmpeg import FFmpeg, Progress
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 s3 = boto3.client('s3')
 
@@ -117,3 +117,10 @@ def main(workdir, source, bucket):
         delete_source(source, bucket)
 
     logger.info(f'Finished processing {source}')
+
+
+if __name__ == '__main__':
+    BUCKET = os.environ['S3_BUCKET_NAME']
+    SOURCE = os.environ['S3_OBJECT_KEY']
+
+    main('/tmp', SOURCE, BUCKET)

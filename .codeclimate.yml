@@ -19,5 +19,4 @@ plugins:
     enabled: true
     config:
       tests_patterns:
-        - hevc-portainer/tests/**
-        - hevc-processor/tests/**
+        - tests/**

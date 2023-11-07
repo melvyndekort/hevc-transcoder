@@ -18,7 +18,7 @@ def test_delete_done_files(aws_credentials, bucket, tmpdir):
     with open(tmpdir + '/subdir/todo.mp4', 'w'):
         pass
 
-    from hevc_portainer import processor
+    from hevc_transcoder import processor
 
     video_list = processor.list_videos(str(tmpdir))
     video_list = [str(x) for x in video_list]
@@ -36,7 +36,7 @@ def test_delete_done_files(aws_credentials, bucket, tmpdir):
     assert tmpdir + '/subdir/todo.mp4' in file_list
 
 def test_main(monkeypatch):
-    from hevc_portainer import processor
+    from hevc_transcoder import processor
 
     class MockVideoFile():
         uploaded = False

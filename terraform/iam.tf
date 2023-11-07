@@ -114,21 +114,6 @@ resource "aws_iam_role_policy" "hevc_fargate_task" {
   policy = data.aws_iam_policy_document.hevc_fargate_task.json
 }
 
-# User creds for portainer
-resource "aws_iam_user" "portainer_hevc" {
-  name = "portainer-hevc"
-  path = "/automated/"
-}
-
-resource "aws_iam_access_key" "portainer_hevc" {
-  user = aws_iam_user.portainer_hevc.name
-}
-
-resource "aws_iam_user_policy" "portainer_hevc" {
-  user   = aws_iam_user.portainer_hevc.name
-  policy = data.aws_iam_policy_document.hevc_fargate_task.json
-}
-
 # lmbackup user
 data "aws_iam_policy_document" "lmbackup" {
   statement {
