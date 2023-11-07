@@ -14,7 +14,7 @@ build: test
 	@poetry build
 
 full-build:
-	@docker image build -t hevc-processor .
+	@docker image build -t hevc-transcoder .
 
 init:
 	@terraform -chdir=terraform init

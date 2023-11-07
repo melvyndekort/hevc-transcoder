@@ -27,4 +27,4 @@ COPY --from=build /venv /venv
 
 ENV PATH="/venv/bin:$PATH"
 
-CMD ["python3", "-m", "hevc_processor.processor"]
+CMD ["python3", "-m", "hevc_transcoder.processor"]
