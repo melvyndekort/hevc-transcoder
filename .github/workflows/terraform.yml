@@ -9,6 +9,8 @@ on:
       - '.github/workflows/terraform.yml'
       - 'terraform/**'
   pull_request:
+    branches:
+      - main
 
 permissions:
   id-token: write
