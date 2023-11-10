@@ -35,6 +35,8 @@ jobs:
           role-to-assume: arn:aws:iam::075673041815:role/external/deployer
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.5.7"
       - name: Terraform Format
         id: fmt
         run: terraform fmt -check
