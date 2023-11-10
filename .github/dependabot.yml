@@ -9,18 +9,18 @@ updates:
       - "melvyndekort"
     reviewers:
       - "melvyndekort"
-  - package-ecosystem: "docker"
+  - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     assignees:
       - "melvyndekort"
     reviewers:
       - "melvyndekort"
-  - package-ecosystem: "pip"
+  - package-ecosystem: "docker"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     assignees:
       - "melvyndekort"
     reviewers:
@@ -28,7 +28,7 @@ updates:
   - package-ecosystem: "terraform"
     directory: "/terraform"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     assignees:
       - "melvyndekort"
     reviewers:
