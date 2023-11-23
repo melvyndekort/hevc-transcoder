@@ -1,1 +1,1 @@
-enable_logging = false
+enable_logging = true
