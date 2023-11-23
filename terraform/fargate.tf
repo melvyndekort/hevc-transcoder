@@ -25,6 +25,13 @@ resource "aws_ecs_task_definition" "hevc_transcoder" {
       command          = ["python", "-m", "hevc_transcoder.transcoder"],
       essential        = true
       logConfiguration = local.log_configuration
+
+      environment = [
+        {
+          name = "AWS_USE_DUALSTACK_ENDPOINT"
+          value = true
+        }
+      ]
     }
   ])
 
