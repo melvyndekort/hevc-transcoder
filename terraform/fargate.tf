@@ -29,7 +29,7 @@ resource "aws_ecs_task_definition" "hevc_transcoder" {
       environment = [
         {
           name  = "AWS_USE_DUALSTACK_ENDPOINT"
-          value = true
+          value = "true"
         }
       ]
     }
