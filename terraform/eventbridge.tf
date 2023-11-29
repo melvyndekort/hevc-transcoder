@@ -35,6 +35,11 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_transcoder" {
       security_groups  = [aws_security_group.hevc_transcoder.id]
       assign_public_ip = var.enable_logging
     }
+
+    capacity_provider_strategy {
+      capacity_provider = "FARGATE_SPOT"
+      weight            = 1
+    }
   }
 
   dead_letter_config {
