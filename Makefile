@@ -1,4 +1,4 @@
-.PHONY = clean install test build full-build init plan apply
+.PHONY: clean install test build full-build init plan apply manual-run manual-run-spot
 .DEFAULT_GOAL := build
 
 clean:
@@ -24,3 +24,9 @@ plan: init
 
 apply: init
 	@terraform -chdir=terraform apply
+
+manual-run:
+	@/bin/sh scripts/manual-run.sh
+
+manual-run-spot:
+	@/bin/sh scripts/manual-run-spot.sh
