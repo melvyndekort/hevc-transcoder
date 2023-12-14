@@ -36,11 +36,10 @@ resource "aws_cloudwatch_event_target" "fargate_hevc_transcoder" {
       assign_public_ip = var.enable_logging
     }
 
-    #Fargate Spot currently causes an Internal Error, disable until that issue is resolved
-    #capacity_provider_strategy {
-    #  capacity_provider = "FARGATE_SPOT"
-    #  weight            = 1
-    #}
+    capacity_provider_strategy {
+      capacity_provider = "FARGATE_SPOT"
+      weight            = 1
+    }
   }
 
   dead_letter_config {
