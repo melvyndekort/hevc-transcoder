@@ -630,13 +630,13 @@ six = ">=1.5"
 
 [[package]]
 name = "python-ffmpeg"
-version = "2.0.9"
+version = "2.0.10"
 description = "A python binding for FFmpeg which provides sync and async APIs"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "python-ffmpeg-2.0.9.tar.gz", hash = "sha256:b06f2e85c5485d170c0e741b55072a5230de27a8e6b984399a4217a55c8cf043"},
-    {file = "python_ffmpeg-2.0.9-py3-none-any.whl", hash = "sha256:0cd440da47caf378e512b5de97e578fb3f763f11576d97f8053ab0107b24d49e"},
+    {file = "python-ffmpeg-2.0.10.tar.gz", hash = "sha256:5c7c47f52e9990aabb4f530ef4debb5373bbc8041dd1e3a8452cc1c69ea615f4"},
+    {file = "python_ffmpeg-2.0.10-py3-none-any.whl", hash = "sha256:775642bdc6063431e9ee8c208826b731cbb2c8c39fc2967f8bebdce90bade216"},
 ]
 
 [package.dependencies]
