@@ -19,9 +19,9 @@ resource "aws_iam_role" "eventbridge_fargate" {
 data "aws_iam_policy_document" "eventbridge_fargate" {
   statement {
     actions = [
-      "sqs:GetQueueAttributes",
       "sqs:ReceiveMessage",
       "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes",
     ]
     resources = [
       aws_sqs_queue.hevc.arn
@@ -32,8 +32,16 @@ data "aws_iam_policy_document" "eventbridge_fargate" {
       "ecs:RunTask",
     ]
     resources = [
-      "*",
+      aws_ecs_task_definition.hevc_transcoder.arn,
     ]
+    condition {
+      test     = "ArnLike"
+      variable = "ecs:cluster"
+
+      values = [
+        data.terraform_remote_state.cloudsetup.outputs.ecs_cluster_arn,
+      ]
+    }
   }
   statement {
     actions = [
@@ -43,6 +51,14 @@ data "aws_iam_policy_document" "eventbridge_fargate" {
       aws_iam_role.hevc_fargate_execution.arn,
       aws_iam_role.hevc_fargate_task.arn,
     ]
+    condition {
+      test     = "StringLike"
+      variable = "iam:PassedToService"
+
+      values = [
+        "ecs-tasks.amazonaws.com",
+      ]
+    }
   }
 }
 

@@ -4,12 +4,6 @@ resource "aws_pipes_pipe" "fargate_hevc_transcoder" {
   source   = aws_sqs_queue.hevc.arn
   target   = data.terraform_remote_state.cloudsetup.outputs.ecs_cluster_arn
 
-  source_parameters {
-    sqs_queue_parameters {
-      batch_size = 1
-    }
-  }
-
   target_parameters {
     ecs_task_parameters {
       task_count          = 1
