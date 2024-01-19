@@ -32,7 +32,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "hevc" {
   }
 }
 
-
 resource "aws_s3_bucket_ownership_controls" "hevc" {
   bucket = aws_s3_bucket.hevc.id
   rule {
@@ -48,6 +47,12 @@ resource "aws_s3_bucket_acl" "hevc" {
 }
 
 resource "aws_s3_bucket_notification" "hevc" {
-  bucket      = aws_s3_bucket.hevc.id
-  eventbridge = true
+  bucket = aws_s3_bucket.hevc.id
+
+  queue {
+    queue_arn     = aws_sqs_queue.hevc.arn
+    events        = ["s3:ObjectCreated:*"]
+    filter_prefix = "TODO"
+    filter_suffix = ".mp4"
+  }
 }

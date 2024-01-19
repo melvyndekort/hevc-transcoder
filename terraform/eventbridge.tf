@@ -1,74 +1,48 @@
-resource "aws_cloudwatch_event_rule" "s3_upload_mp4" {
-  name        = "capture-mp4-upload-events"
-  description = "Capture all upload events of mp4 files in an S3 bucket"
+resource "aws_pipes_pipe" "fargate_hevc_transcoder" {
+  name     = "fargate-hevc-transcoder"
+  role_arn = aws_iam_role.eventbridge_fargate.arn
+  source   = aws_sqs_queue.hevc.arn
+  target   = data.terraform_remote_state.cloudsetup.outputs.ecs_cluster_arn
 
-  event_pattern = jsonencode({
-    source      = ["aws.s3", "mdekort.hevc"],
-    detail-type = ["Object Created", "Manual Trigger"],
-    detail = {
-      bucket = {
-        name = [aws_s3_bucket.hevc.id]
+  source_parameters {
+    sqs_queue_parameters {
+      batch_size = 1
+    }
+  }
+
+  target_parameters {
+    ecs_task_parameters {
+      task_count          = 1
+      task_definition_arn = aws_ecs_task_definition.hevc_transcoder.arn
+
+      network_configuration {
+        aws_vpc_configuration {
+          subnets          = data.terraform_remote_state.cloudsetup.outputs.public_subnets
+          security_groups  = [aws_security_group.hevc_transcoder.id]
+          assign_public_ip = var.enable_logging ? "ENABLED" : "DISABLED"
+        }
       }
-      object = {
-        key = [{ wildcard = "TODO/*.mp4" }]
+
+      capacity_provider_strategy {
+        capacity_provider = "FARGATE_SPOT"
+        weight            = 1
+      }
+
+      overrides {
+        container_override {
+          name = "hevc-transcoder"
+
+          environment {
+            name  = "S3_BUCKET_NAME"
+            value = "$.body.Records[0].s3.bucket.name"
+          }
+
+          environment {
+            name  = "S3_OBJECT_KEY"
+            value = "$.body.Records[0].s3.object.key"
+          }
+        }
       }
     }
-  })
-}
-
-resource "aws_sqs_queue" "hevc_dlq" {
-  name = "hevc-dlq"
-}
-
-resource "aws_cloudwatch_event_target" "fargate_hevc_transcoder" {
-  target_id = "fargate-hevc-transcoder"
-  rule      = aws_cloudwatch_event_rule.s3_upload_mp4.name
-  arn       = data.terraform_remote_state.cloudsetup.outputs.ecs_cluster_arn
-  role_arn  = aws_iam_role.eventbridge_fargate.arn
-
-  ecs_target {
-    task_count          = 1
-    task_definition_arn = aws_ecs_task_definition.hevc_transcoder.arn
-
-    network_configuration {
-      subnets          = data.terraform_remote_state.cloudsetup.outputs.public_subnets
-      security_groups  = [aws_security_group.hevc_transcoder.id]
-      assign_public_ip = var.enable_logging
-    }
-
-    capacity_provider_strategy {
-      capacity_provider = "FARGATE_SPOT"
-      weight            = 1
-    }
-  }
-
-  dead_letter_config {
-    arn = aws_sqs_queue.hevc_dlq.arn
-  }
-
-  retry_policy {
-    maximum_event_age_in_seconds = 86400
-    maximum_retry_attempts       = 185
-  }
-
-  input_transformer {
-    input_paths = {
-      bucketname = "$.detail.bucket.name",
-      objectkey  = "$.detail.object.key",
-    }
-
-    input_template = <<EOF
-{
-  "containerOverrides": [
-    {
-      "name": "hevc-transcoder",
-      "environment": [
-        { "name": "S3_BUCKET_NAME", "value": "<bucketname>" },
-        { "name": "S3_OBJECT_KEY", "value": "<objectkey>" }
-      ]
-    }
-  ]
-}
-EOF
   }
 }

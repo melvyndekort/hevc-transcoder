@@ -5,7 +5,7 @@ data "aws_iam_policy_document" "assume_eventbridge_fargate" {
 
     principals {
       type        = "Service"
-      identifiers = ["events.amazonaws.com"]
+      identifiers = ["pipes.amazonaws.com"]
     }
   }
 }
@@ -17,6 +17,16 @@ resource "aws_iam_role" "eventbridge_fargate" {
 }
 
 data "aws_iam_policy_document" "eventbridge_fargate" {
+  statement {
+    actions = [
+      "sqs:GetQueueAttributes",
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+    ]
+    resources = [
+      aws_sqs_queue.hevc.arn
+    ]
+  }
   statement {
     actions = [
       "ecs:RunTask",

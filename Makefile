@@ -25,6 +25,9 @@ plan: init
 apply: init
 	@terraform -chdir=terraform apply
 
+full-run:
+	@/bin/sh scripts/full-run.sh
+
 manual-run:
 	@/bin/sh scripts/manual-run.sh
 
