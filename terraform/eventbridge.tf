@@ -26,6 +26,11 @@ resource "aws_pipes_pipe" "fargate_hevc_transcoder" {
         container_override {
           name = "hevc-transcoder"
 
+          # Workaround: Terraform sets these to 0 if they're unset
+          cpu                = (var.cpu - 1)
+          memory             = (var.memory - 1)
+          memory_reservation = (var.memory - 1)
+
           environment {
             name  = "S3_BUCKET_NAME"
             value = "$.body.Records[0].s3.bucket.name"

@@ -13,8 +13,8 @@ resource "aws_ecs_task_definition" "hevc_transcoder" {
   family                   = "hevc-transcoder"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = 4096
-  memory                   = 8192
+  cpu                      = var.cpu
+  memory                   = var.memory
   execution_role_arn       = aws_iam_role.hevc_fargate_execution.arn
   task_role_arn            = aws_iam_role.hevc_fargate_task.arn
 
