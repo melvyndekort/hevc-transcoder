@@ -1,5 +1,5 @@
-resource "aws_pipes_pipe" "fargate_hevc_transcoder" {
-  name     = "fargate-hevc-transcoder"
+resource "aws_pipes_pipe" "hevc_transcoder" {
+  name     = "hevc-transcoder"
   role_arn = aws_iam_role.eventbridge_fargate.arn
   source   = aws_sqs_queue.hevc.arn
   target   = data.terraform_remote_state.cloudsetup.outputs.ecs_cluster_arn

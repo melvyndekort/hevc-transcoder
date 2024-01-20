@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "queue" {
+data "aws_iam_policy_document" "hevc" {
   statement {
     effect = "Allow"
 
@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "queue" {
     }
 
     actions   = ["sqs:SendMessage"]
-    resources = ["arn:aws:sqs:*:*:hevc"]
+    resources = [aws_sqs_queue.hevc.arn]
 
     condition {
       test     = "ArnEquals"
@@ -19,13 +19,17 @@ data "aws_iam_policy_document" "queue" {
 }
 
 resource "aws_sqs_queue" "hevc" {
-  name   = "hevc"
-  policy = data.aws_iam_policy_document.queue.json
+  name = "hevc"
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.hevc_dlq.arn
     maxReceiveCount     = 4
   })
+}
+
+resource "aws_sqs_queue_policy" "hevc" {
+  queue_url = aws_sqs_queue.hevc.id
+  policy    = data.aws_iam_policy_document.hevc.json
 }
 
 resource "aws_sqs_queue" "hevc_dlq" {
