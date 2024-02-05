@@ -2,12 +2,12 @@ import os
 import boto3
 import pytest
 
-from moto import mock_s3
+from moto import mock_aws
 from botocore.exceptions import ClientError
 
 @pytest.fixture
 def s3(aws_credentials):
-    with mock_s3():
+    with mock_aws():
         yield boto3.client('s3')
 
 def create_test_bucket(s3, bucket):
@@ -40,7 +40,7 @@ def test_flow_processed(monkeypatch, aws_credentials, s3, bucket):
 
     assert called == 1
 
-@mock_s3
+@mock_aws
 def test_flow_success(monkeypatch, aws_credentials, s3, bucket, tmpdir):
     from hevc_transcoder import transcoder
 

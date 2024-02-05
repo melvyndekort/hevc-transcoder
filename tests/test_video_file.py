@@ -5,11 +5,11 @@ import boto3
 import pytest
 
 from pathlib import Path
-from moto import mock_s3
+from moto import mock_aws
 
 @pytest.fixture
 def s3(aws_credentials):
-    with mock_s3():
+    with mock_aws():
         yield boto3.client('s3')
 
 def create_test_bucket(s3, bucket):
@@ -26,7 +26,7 @@ def test_creation():
     assert obj.key['todo'] == 'TODO/file.mp4'
     assert obj.key['done'] == 'DONE/file-hevc.mp4'
 
-@mock_s3
+@mock_aws
 def test_upload(aws_credentials, tmpdir, bucket, s3):
     basedir = str(tmpdir)
     filename = 'file.mp4'
@@ -44,7 +44,7 @@ def test_upload(aws_credentials, tmpdir, bucket, s3):
     assert obj.uploaded
     assert s3.head_object(Bucket=bucket, Key=f'TODO/{filename}')
 
-@mock_s3
+@mock_aws
 def test_download_processed(aws_credentials, s3, tmpdir, bucket):
     basedir = str(tmpdir)
     source = 'file.mp4'
@@ -68,7 +68,7 @@ def test_download_processed(aws_credentials, s3, tmpdir, bucket):
     assert not Path(f'{basedir}/{source}').is_file()
     assert Path(f'{basedir}/{target}').is_file()
 
-@mock_s3
+@mock_aws
 def test_is_processing(aws_credentials, s3, tmpdir, bucket):
     basedir = str(tmpdir)
     source = 'file.mp4'
@@ -88,7 +88,7 @@ def test_is_processing(aws_credentials, s3, tmpdir, bucket):
 
     assert obj.is_processing()
 
-@mock_s3
+@mock_aws
 def test_is_done(aws_credentials, s3, tmpdir, bucket):
     basedir = str(tmpdir)
     source = 'file.mp4'
