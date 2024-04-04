@@ -45,3 +45,24 @@ resource "aws_pipes_pipe" "hevc_transcoder" {
     }
   }
 }
+
+resource "aws_cloudwatch_event_rule" "ecs_status" {
+  name        = "ecs-status"
+  description = "Capture event emitted by ECS"
+
+  event_pattern = jsonencode({
+    source      = ["aws.ecs"]
+    detail-type = ["ECS Task State Change"]
+    detail = {
+      lastStatus = [
+        "RUNNING",
+        "STOPPED"
+      ]
+    }
+  })
+}
+
+resource "aws_cloudwatch_event_target" "ecs_status" {
+  rule = aws_cloudwatch_event_rule.codebuild_status.name
+  arn  = data.terraform_remote_state.cloudsetup.outputs.notifications_sns_arn
+}
