@@ -63,6 +63,6 @@ resource "aws_cloudwatch_event_rule" "ecs_status" {
 }
 
 resource "aws_cloudwatch_event_target" "ecs_status" {
-  rule = aws_cloudwatch_event_rule.codebuild_status.name
+  rule = aws_cloudwatch_event_rule.ecs_status.name
   arn  = data.terraform_remote_state.cloudsetup.outputs.notifications_sns_arn
 }
