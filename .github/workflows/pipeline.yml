@@ -59,7 +59,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
       - name: Build
         if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: false
           cache-from: type=gha
@@ -73,7 +73,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           tags: melvyndekort/hevc-transcoder:latest
