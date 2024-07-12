@@ -21,9 +21,11 @@ data "aws_iam_policy_document" "hevc" {
 resource "aws_sqs_queue" "hevc" {
   name = "hevc"
 
+  visibility_timeout_seconds = 7200
+
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.hevc_dlq.arn
-    maxReceiveCount     = 4
+    maxReceiveCount     = 10
   })
 }
 
