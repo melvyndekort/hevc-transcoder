@@ -57,14 +57,6 @@ def transcode_file(workdir):
     def on_start(arguments: list[str]):
         logger.info(f"arguments: {arguments}")
 
-    @ffmpeg.on("stderr")
-    def on_stderr(line):
-        logger.info(f"stderr: {line}")
-
-    @ffmpeg.on("progress")
-    def on_progress(progress: Progress):
-        logger.info(progress)
-
     @ffmpeg.on("completed")
     def on_completed():
         logger.info("completed")
