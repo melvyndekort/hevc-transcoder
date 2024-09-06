@@ -36,9 +36,7 @@ resource "aws_ecs_task_definition" "hevc_transcoder" {
   ])
 
   runtime_platform {
-    #Feature Request: https://github.com/aws/containers-roadmap/issues/1594
-    #cpu_architecture = "ARM64"
-    cpu_architecture = "X86_64"
+    cpu_architecture = "ARM64"
   }
 }
 
