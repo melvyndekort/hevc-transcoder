@@ -6,7 +6,7 @@ authors = ["Melvyn de Kort <melvyn@mdekort.nl>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-boto3 = "^1.35"
+boto3 = "^1.36"
 python-ffmpeg = "^2.0"
 python-json-logger = "^3.2.1"
 
