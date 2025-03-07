@@ -8,7 +8,7 @@ authors = ["Melvyn de Kort <melvyn@mdekort.nl>"]
 python = "^3.9"
 boto3 = "^1.37"
 python-ffmpeg = "^2.0"
-python-json-logger = "^3.2.1"
+python-json-logger = "^3.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^8.3"
