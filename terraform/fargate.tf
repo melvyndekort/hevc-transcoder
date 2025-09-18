@@ -43,7 +43,7 @@ resource "aws_ecs_task_definition" "hevc_transcoder" {
 resource "aws_security_group" "hevc_transcoder" {
   name        = "hevc-transcoder"
   description = "hevc-transcoder"
-  vpc_id      = data.terraform_remote_state.cloudsetup.outputs.vpc_id
+  vpc_id      = data.terraform_remote_state.tf_aws.outputs.vpc_id
 
   egress {
     from_port        = 0

@@ -39,7 +39,7 @@ data "aws_iam_policy_document" "eventbridge_fargate" {
       variable = "ecs:cluster"
 
       values = [
-        data.terraform_remote_state.cloudsetup.outputs.ecs_cluster_arn,
+        data.terraform_remote_state.tf_aws.outputs.ecs_cluster_arn,
       ]
     }
   }
@@ -156,6 +156,6 @@ data "aws_iam_policy_document" "lmbackup" {
 }
 
 resource "aws_iam_user_policy" "lmbackup" {
-  user   = data.terraform_remote_state.cloudsetup.outputs.lmbackup_user
+  user   = data.terraform_remote_state.tf_aws.outputs.lmbackup_user
   policy = data.aws_iam_policy_document.lmbackup.json
 }
