@@ -2,7 +2,7 @@ resource "aws_pipes_pipe" "hevc_transcoder" {
   name     = "hevc-transcoder"
   role_arn = aws_iam_role.eventbridge_fargate.arn
   source   = aws_sqs_queue.hevc.arn
-  target   = data.terraform_remote_state.cloudsetup.outputs.ecs_cluster_arn
+  target   = data.terraform_remote_state.tf_aws.outputs.ecs_cluster_arn
 
   target_parameters {
     ecs_task_parameters {
@@ -11,7 +11,7 @@ resource "aws_pipes_pipe" "hevc_transcoder" {
 
       network_configuration {
         aws_vpc_configuration {
-          subnets          = data.terraform_remote_state.cloudsetup.outputs.public_subnets
+          subnets          = data.terraform_remote_state.tf_aws.outputs.public_subnets
           security_groups  = [aws_security_group.hevc_transcoder.id]
           assign_public_ip = var.enable_logging ? "ENABLED" : "DISABLED"
         }
